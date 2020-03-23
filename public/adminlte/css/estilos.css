@@ -1,0 +1,103 @@
+/* CSS Document */
+.subMenusNuevos {
+	font-size: 12px;
+}
+.anchoInputs{
+	width:100%;
+}
+
+/*******************************
+* Does not work properly if "in" is added after "collapse".
+* Get free snippets on bootpen.com
+*******************************/
+    .panel-group .panel {
+        border-radius: 0;
+        box-shadow: none;
+        border-color: #EEEEEE;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 0;
+        border-radius: 0;
+        color: #212121;
+        background-color: #FAFAFA;
+        border-color: #EEEEEE;
+    }
+
+    .panel-title {
+        font-size: 14px;
+    }
+
+    .panel-title > a {
+        display: block;
+        padding: 15px;
+        text-decoration: none;
+    }
+
+    .more-less {
+        float: right;
+        color: #212121;
+    }
+
+    .panel-default > .panel-heading + .panel-collapse > .panel-body {
+        border-top-color: #EEEEEE;
+    }
+
+
+
+/*******************************/
+/*******************************/
+/* INICIO NUEVOS ESTILOS */
+    /*texto login*/
+    #advertencia{
+        color:#9d2449;
+    }
+
+    /*push menu desplegable*/
+    .navbar-light .navbar-nav .nav-link {
+        color:#fff;
+    }
+    /*campanita notificaciones*/
+    .badge-warning {
+        color: #fff;;
+        background-color: #b38e5d;
+    }
+    /*boton Salir*/
+    .btn-salir {
+        color: #fff;
+        background-color: #b38e5d;
+        box-shadow: none;
+        border:none;
+    }
+
+    .btn-salir:hover{
+        color: #b38e5d ;
+        background-color: #fff;
+        border: 1px solid #0b2e13;
+    }
+    /*header*/
+    .navbar-white{
+        background-color: #285c4d;
+
+    }
+    /*Footer*/
+    .main-footer{
+        background-color: #285c4d;
+        color: #fff;
+    }
+    /*Menu vertical*/
+    [class*=sidebar-dark-] {
+        background-color: #212121;
+    }
+    /*texto Siass*/
+    [class*=sidebar-dark] .brand-link {
+        border-bottom: 1px solid #4b545c;
+        color:#fff;
+    }
+
+
+    /*h1*/
+    h1 {
+        color:#9d2449;
+    }
+
