@@ -33,6 +33,8 @@ algunos de ells son los siguientes.
 
 ##composer install
 
+##composer update
+
 ##npm install
 
 ##composer key:generate
