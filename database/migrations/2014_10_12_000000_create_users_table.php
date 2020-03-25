@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->char('login',128)->nullable();
             $table->char('email',100)->nullable();
             $table->binary('clave',100)->nullable();
+            $table->char('clara',64)->nullable();
             $table->char('status',100)->nullable();
             $table->timestamp('fechaUltVisita')->nullable();
             $table->timestamp('email_verified_at')->nullable();
