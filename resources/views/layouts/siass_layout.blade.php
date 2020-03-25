@@ -36,7 +36,6 @@
         <label class="d-flex"> Usuario registrado: {{ Auth::user()->nombre }} {{ Auth::user()->apellidoPaterno }} {{ Auth::user()->apellidoMaterno }}</label>
         <!-- Right navbar links -->
 
-        <img src="{{ Storage::url(Auth::user()->foto)  }}" class="img-circle ml-2" style="width: 25px; height: 25px;"  alt="avatar">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="btn btn-primary btn-salir" href="{{ route('logout') }}">
@@ -45,7 +44,7 @@
             </li>
 
         </ul>
-
+        <img src="{{ Storage::url(Auth::user()->foto)  }}" class="img-circle ml-2" style="width: 25px; height: 25px;"  alt="avatar">
 
     </nav>
     <!-- /.navbar -->
