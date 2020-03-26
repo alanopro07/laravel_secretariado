@@ -10,37 +10,49 @@
 
             <div class="col-md-12 bg-light">
                 <div class="form-group">
-                    <label>Ejercicio Fiscal</label>
-                    <input type="text"  class="form-control"  id="Ejercicio Fiscal" name="Ejercicio Fiscal" value="" placeholder="Ingresar 	Ejercicio Fiscal" >
+                    <label>Año del ejercicio</label>
+                    <select class="browser-default custom-select estado" name="ejercicio" id="ejercicio" >
+                        <option value="0">Selecciona año</option>
+                        @foreach($ejercicios as $ejercicio)
+                            <option value="{{$ejercicio->idEjercicio}}">{{$ejercicio->ejercicio}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Nombre del Subsidio</label>
-                    <input type="text"  class="form-control"  id="Nombre del Subsidio" name="Nombre del Subsidio" value="" placeholder="Ingresar 	Nombre del Subsidio" >
+                    <select class="browser-default custom-select estado" name="subsidio" id="subsidio" >
+                        <option value="0">Selecciona Subsidio</option>
+                        @foreach($subsidios as $subsidio)
+                            <option value="{{$subsidio->idSubsidio}}">{{$subsidio->nombreLargo}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Entidad Federativa</label>
                     <select class="browser-default custom-select estado" name="estado" id="estado" >
                         <option value="0">Selecciona Entidad Federativa</option>
-                        <option value=""></option>
-
+                        @foreach($estados as $estado)
+                        <option value="{{$estado->idEstado}}">{{$estado->estado}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Delegacion/Municipio</label>
                     <select class="browser-default custom-select municipio" name="municipio" id="municipio" >
                         <option value="0">Selecciona Delegacion/Municipio</option>
-                        <option value="1"></option>
-                        <option value="2"></option>
+                        @foreach($municipios as $municipio)
+                        <option value="{{$municipio->idMunicipio}}">{{$municipio->municipio}}</option>
+                        @endforeach()
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Informe Trimestral</label>
-                    <select class="browser-default custom-select" name="institucion_bancaria" id="institucion_bancaria" >
+                    <select class="browser-default custom-select" name="trimestre" id="trimestre" >
                         <option value="0">Selecciona Informe Trimestral</option>
-                        <option value="1"></option>
-                        <option value="2"></option>
-
+                        @foreach($trimestres as $trimestre)
+                            <option value="{{$trimestre->idci_trimestres}}">{{$trimestre->fInicio}} - {{$trimestre->fFin}}</option>
+                        @endforeach()
                     </select>
                 </div>
 
@@ -58,9 +70,9 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Nombre Completo</div>
                                     </div>
+                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Nombre">
                                     <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Primer Apellido">
-                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Primer Apellido">
-                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Primer Apellido">
+                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Segundo Apellido">
                                 </div>
                             </div>
                         </div>

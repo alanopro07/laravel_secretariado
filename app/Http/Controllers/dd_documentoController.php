@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\dd_documento;
 use App\Models\estadoModel;
 use App\Models\municipioModel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -96,8 +98,29 @@ class dd_documentoController extends Controller
 
     public function formularioReporte()
     {
-        $estados = estadoModel::pluck('estado');
-        return view('carga_reporte')->with('estados',$estados);
+        $subsidios = DB::table('subsidio')->select('idSubsidio','nombreLargo')->where('idSubsidio',1)->get();
+        $ejercicios = DB::table('ejercicio')->select('idEjercicio','ejercicio')->where('idEjercicio',1)->get();
+        $trimestres = DB::table('ci_trimestres')->select('*')->get();
+
+        $estados =  DB::table('usuario_municipio')
+            ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
+            ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
+            ->select('estado.idEstado','estado.estado')
+            ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
+
+        $municipios = DB::table('usuario_municipio')
+            ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
+            ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
+            ->select('municipio.idMunicipio','municipio.municipio')
+            ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
+
+        return view('carga_reporte')->with([
+            'estados'=>$estados,
+            'municipios'=>$municipios,
+            'subsidios'=>$subsidios,
+            'ejercicios'=>$ejercicios,
+            'trimestres'=>$trimestres
+        ]);
     }
 
     public function descargarPlantilla()

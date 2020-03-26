@@ -45,7 +45,7 @@
             </li>
 
         </ul>
-        <img src="{{ Storage::url(Auth::user()->foto)  }}" class="img-circle ml-2" style="width: 25px; height: 25px;"  alt="avatar">
+{{--        <img src="{{ Storage::url(Auth::user()->foto)  }}" class="img-circle ml-2" style="width: 25px; height: 25px;"  alt="avatar">--}}
 
     </nav>
     <!-- /.navbar -->
@@ -141,8 +141,8 @@
 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 
-<script type="text/javascript" src="{{asset('js/municipios.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/select_estados.js')}}"></script>
+{{--<script type="text/javascript" src="{{asset('js/municipios.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('js/select_estados.js')}}"></script>--}}
 <script >
     $('#datetime').datepicker({
         format: 'yyyy/mm/dd',
