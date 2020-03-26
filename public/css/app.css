@@ -10901,15 +10901,6 @@ a:hover {
   text-decoration: none;
 }
 
-.a-ginda_link {
-  color: grey;
-  transition: background 0.3s ease-in, color 0.3s ease-in;
-}
-
-.a-ginda_link:hover {
-  text-decoration: none;
-}
-
 .a-ginda {
   color: #621132;
   transition: background 0.3s ease-in, color 0.3s ease-in;
