@@ -117,7 +117,7 @@
                                     <label class="custom-file-label" for="validatedCustomFile"><i class="fa fa-floppy-o" aria-hidden="true"></i> Adjuntar y Guardar</label>
                                 </div>
                                 <div class="col-md-12 bg-light pt-2">
-                                    <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
+                                    <button type="submit" class="btn btn-lg btn-primary">Regresar</button>
                                     <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
                                 </div>
 
