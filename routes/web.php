@@ -52,10 +52,29 @@ Route::get('carga_carta_domicilio',function (){
  */
 Route::get('visualizar_reportes_trimestrales','dd_documentoController@mostrarReportes')->name('visualizar_reportes_trimestrales')->middleware('auth');
 /**
- *
+ * fin de rutas
+ */
+
+/**+
+ * histios de usuario HU-1 carga de datos (rutas9
+ */
+Route::get('cargar_reporte_trimestral','dd_documentoController@formularioReporte')->name('cargar_reporte_trimestral')->middleware('auth');
+/**
+ * fin de rutas
  */
 
 
+/**
+ * descar frmato
+ */
+
+Route::get('descarga_formato','dd_documentoController@descargarPlantilla')->name('descarga_formato')->middleware('auth');
+
+/**
+ * ajax prueva
+ */
+
+Route::post('municipios_de_estado','dd_documentoController@municipios_de_estado')->name('municipios_de_estado')->middleware('auth');
 /**
  * ruta para salir del sistema
  */

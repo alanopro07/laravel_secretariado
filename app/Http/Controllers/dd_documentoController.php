@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\dd_documento;
+use App\Models\estadoModel;
+use App\Models\municipioModel;
+use Illuminate\Support\Facades\Storage;
 
 
 class dd_documentoController extends Controller
@@ -86,9 +89,26 @@ class dd_documentoController extends Controller
 
     public function mostrarReportes()
     {
-
         $mostrar = dd_documento::all();
 //        dd($mostrar->pluck('idUsuario'));
         return  view('visualizacion_reportes_trimestrales');
+    }
+
+    public function formularioReporte()
+    {
+        $estados = estadoModel::pluck('estado');
+        return view('carga_reporte')->with('estados',$estados);
+    }
+
+    public function descargarPlantilla()
+    {
+       return Storage::disk('storage_plantilla')->download('Informe_trimestral_platilla.pdf');
+
+    }
+
+    public function municipios_de_estado(Request $request)
+    {
+        $all = $request->all();
+        dd($all);
     }
 }
