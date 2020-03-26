@@ -81,13 +81,7 @@
         <section class="content">
 
         {{-- contenido del body --}}
-        @if(Auth::user()->idRol==140)
-            @yield('visualizar_reportes')
-        @endif
-
-        @if(Auth::user()->idRol==31 || Auth::user()->idRol==32)
-            @yield('contenido_pruebas')
-        @endif
+        @yield('contenido_pruebas')
             <!-- FIN Contenido de la Vista ----->
         </section>
         <!-- INICIO FORM MASTER -->
