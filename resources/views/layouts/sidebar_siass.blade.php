@@ -20,7 +20,7 @@
                 @if(Auth::user()->idRol==31 || Auth::user()->idRol==32)
                     <label for="reporte trimestral" class="bg-white text-center">Reporte trimestral</label>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('cargar_reporte_trimestral')}}" class="nav-link">
                             <i class="nav-icon fas fa-circle"></i>
                             <p class="btn-primario">
                                 Cargar Reporte
