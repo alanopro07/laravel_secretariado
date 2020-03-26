@@ -36,6 +36,8 @@ class HomeController extends Controller
     {
 
         $idRol = Auth::user()->idRol;
+
+
 //        $permisos = DB::table('rol')
 //            ->leftJoin('rol_permiso','rol_permiso.idRol','=','rol.idRol')
 //            ->leftJoin('permiso','permiso.idPermiso','=','rol_permiso.idPermiso')
@@ -43,8 +45,6 @@ class HomeController extends Controller
 //            ->select('rol.descripcion','etapa.etapa','etapa.descripcion as descricion_etapa','permiso.permiso','permiso.descripcion as permiso_descripcion')
 //            ->where('rol.idRol',$idRol)
 //            ->get();
-
-        //mensaje de bienvenida
         toast('Bienvenid@ '.Auth::user()->login.'!','success');
         return view('pruebas')->with([
             'texto1'=>'hola desde controlador prueba1',

@@ -47,18 +47,7 @@ Route::get('carga_carta_domicilio',function (){
 })->name('carga_carta_domicilio');
 
 
-/**
- * historia de usuario HU-2 veririfacion de informe (rutas)
- */
-Route::get('visualizar_reportes_trimestrales','dd_documentoController@mostrarReportes')->name('visualizar_reportes_trimestrales')->middleware('auth');
-/**
- *
- */
-
-
-/**
- * ruta para salir del sistema
- */
+//ruta para salir del sistema
 Route::get('logout', function ()
 {
     auth()->logout();

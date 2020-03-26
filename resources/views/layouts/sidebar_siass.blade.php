@@ -1,34 +1,22 @@
-<div class="sidebar" >
+<div class="sidebar">
 
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         {{--     menu-machote           --}}
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-            @if(Auth::user()->idRol==140)
-                <label for="reporte trimestral" class="bg-white text-center">Reporte trimestral</label>
-                <li class="nav-item has-treeview">
-                    <a href="{{route('visualizar_reportes_trimestrales')}}" class="nav-link">
-                        <i class="nav-icon fas fa-circle"></i>
-                        <p class="btn-primario">
-                            Lista de documentos
-                            <i class="right fas fa-plus"></i>
-                        </p>
-                    </a>
-                </li>
+            @if(Auth::user()->idRol==31 || Auth::user()->idRol==32 )
+            <li class="nav-item has-treeview">
+                <a href="{{ route('carga_carta_bancaria') }}" class="nav-link">
+                    <i class="nav-icon fas fa-circle"></i>
+                    <p class="btn-primario">
+                        Reporte Trimestral
+                        <i class="right fas fa-plus"></i>
+                    </p>
+                </a>
+            </li>
+
             @endif
-                @if(Auth::user()->idRol==31 || Auth::user()->idRol==32)
-                    <label for="reporte trimestral" class="bg-white text-center">Reporte trimestral</label>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-circle"></i>
-                            <p class="btn-primario">
-                                Cargar Reporte
-                                <i class="right fas fa-plus"></i>
-                            </p>
-                        </a>
-                    </li>
-                @endif
 
         </ul>
     </nav>
