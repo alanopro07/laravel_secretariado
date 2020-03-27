@@ -2,6 +2,8 @@
 
 @section('carga_reporte')
 
+    {{ Form::open(array('url' => 'carga_reporte_trimestral', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
+
     <div class="container ">
         <div class="row ">
             <div class="col-md-12 bg-light pt-2">
@@ -113,11 +115,11 @@
 
                                 </div>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                                    <input type="file"  accept="application/pdf" class="custom-file-input" id="validatedCustomFile" required>
                                     <label class="custom-file-label" for="validatedCustomFile"><i class="fa fa-floppy-o" aria-hidden="true"></i> Adjuntar y Guardar</label>
                                 </div>
                                 <div class="col-md-12 bg-light pt-2">
-                                    <button type="submit" class="btn btn-lg btn-primary">Regresar</button>
+                                    <a href="{{url('dashboard')}}"> <button type="text" class="btn btn-lg btn-primary">Regresar</button></a>
                                     <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
                                 </div>
 

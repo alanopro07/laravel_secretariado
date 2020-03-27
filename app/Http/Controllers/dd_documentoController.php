@@ -137,4 +137,10 @@ class dd_documentoController extends Controller
 
     }
 
+    
+    public function cargaDatos()
+    {
+        dd('entro');
+    }
+
 }
