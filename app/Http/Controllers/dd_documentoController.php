@@ -91,9 +91,17 @@ class dd_documentoController extends Controller
 
     public function mostrarReportes()
     {
-        $mostrar = dd_documento::all();
-//        dd($mostrar->pluck('idUsuario'));
-        return  view('visualizacion_reportes_trimestrales');
+
+        $numero=0;
+        $documentos = DB::table('dd_documento')
+            ->join('informetrimestral','informetrimestral.idDocumento','=','dd_documento.idDocumento')
+            ->join('municipio','municipio.idMunicipio','=','informetrimestral.idMunicipio')
+            ->join('estado','estado.idEstado','=','municipio.idEstado')
+            ->join('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
+            ->select('estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
+            ->get();
+        
+        return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
     }
 
     public function formularioReporte()
@@ -129,9 +137,12 @@ class dd_documentoController extends Controller
 
     }
 
-    public function municipios_de_estado(Request $request)
+    
+    public function cargaDatos(Request $request)
     {
-        $all = $request->all();
-        dd($all);
+        $input = $request->all();
+
+        dd($input);
     }
+
 }

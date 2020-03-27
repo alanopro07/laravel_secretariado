@@ -14,27 +14,15 @@
             </tr>
             </thead>
             <tbody>
+            @foreach($documentos as $documento)
             <tr>
-                <th>1</th>
-                <td>Aguascalientes</td>
-                <td>aguascalientes</td>
-                <td>enviado</td>
-                <td class="text-center"><a href="" class="a-ginda_link">ver documento</a></td>
+                <th>{{$numero=$numero+1}}</th>
+                <td>{{$documento->estado}}</td>
+                <td>{{$documento->municipio}}</td>
+                <td>{{$documento->status}}</td>
+                <td class="text-center"><a href="" class="a-ginda_link">{{$documento->doc}}</a></td>
             </tr>
-            <tr>
-                <th>2</th>
-                <td>Aguascalientes</td>
-                <td>aguascalientes</td>
-                <td>enviado</td>
-                <td class="text-center"><a href="" class="a-ginda_link">ver documento</a></td>
-            </tr>
-            <tr>
-                <th>3</th>
-                <td>Aguascalientes</td>
-                <td>aguascalientes</td>
-                <td>enviado</td>
-                <td class="text-center"><a href="" class="a-ginda_link">ver documento</a></td>
-            </tr>
+            @endforeach
             </tbody>
         </table>
 
