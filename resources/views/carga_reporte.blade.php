@@ -4,6 +4,7 @@
 
     {{ Form::open(array('url' => 'carga_reporte_trimestral', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
 
+    @csrf
     <div class="container ">
         <div class="row ">
             <div class="col-md-12 bg-light pt-2">

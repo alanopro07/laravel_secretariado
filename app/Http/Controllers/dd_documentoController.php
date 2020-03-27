@@ -138,9 +138,11 @@ class dd_documentoController extends Controller
     }
 
     
-    public function cargaDatos()
+    public function cargaDatos(Request $request)
     {
-        dd('entro');
+        $input = $request->all();
+
+        dd($input);
     }
 
 }
