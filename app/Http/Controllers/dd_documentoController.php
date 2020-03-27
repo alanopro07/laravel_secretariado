@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\dd_documento;
 use App\Models\estadoModel;
 use App\Models\municipioModel;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Storage;
 
 class dd_documentoController extends Controller
 {
+    const tipo_doc16 = 16;
+    const tipo_doc17 = 17;
+    const tipo_doc18 = 18;
+    const tipo_doc19 = 19;
     /**
      * Display a listing of the resource.
      *
@@ -99,6 +104,7 @@ class dd_documentoController extends Controller
             ->join('estado','estado.idEstado','=','municipio.idEstado')
             ->join('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
             ->select('estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
+            ->whereIn('dd_documento.idTipoDoc',[self::tipo_doc16,self::tipo_doc17,self::tipo_doc18,self::tipo_doc19])
             ->get();
         
         return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
@@ -127,22 +133,30 @@ class dd_documentoController extends Controller
             'municipios'=>$municipios,
             'subsidios'=>$subsidios,
             'ejercicios'=>$ejercicios,
-            'trimestres'=>$trimestres
+            'trimestres'=>$trimestres,
         ]);
     }
 
-    public function descargarPlantilla()
+    public function descargarPlantilla(Request $request)
     {
-       return Storage::disk('storage_plantilla')->download('Informe_trimestral_platilla.pdf');
-
+//       return Storage::disk('storage_plantilla')->download('Informe_trimestral_platilla.pdf');
+        toast('ya puedes descargar el archivo','success');
+        return view('carga_reporte_trimestre_pdf')->with('status',true);
     }
 
     
     public function cargaDatos(Request $request)
     {
+
         $input = $request->all();
 
-        dd($input);
+        $ob = (object)$input;
+        $ruta = $ob->reporte_trimestre->store('public/reporte_trimestral/');
+
+
+        //guardado de datos
+
+
     }
 
 }
