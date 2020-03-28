@@ -25,20 +25,27 @@ Route::get('cargar_reporte_trimestral','dd_documentoController@formularioReporte
  */
 
 
-/**
- * descar frmato
- */
 
-Route::get('descarga_formato','dd_documentoController@descargarPlantilla')->name('descarga_formato')->middleware('auth');
-
-/**
- * carga de reporte trimestral
- */
-
-Route::post('carga_reporte_trimestral','dd_documentoController@cargaDatos')->name('carga_reporte_trimestral')->middleware('auth');
 /**
  * ruta para salir del sistema
  */
+
+/**
+ * formato de reporte
+ */
+Route::post('carga_datos_pdf','dd_documentoController@descargarPdf')->name('carga_datos_pdf')->middleware('auth');
+
+Route::post('pdf',function (){
+
+
+    $pdf = PDF::loadView('reportes.reporte_pdf');
+    $pdf->setPaper('a3','landscape');
+    $pdf->stream();
+    return redirect('cargar_reporte_trimestral');
+});
+
+Route::post('carga_pdf_final','dd_documentoController@cargaDatos')->name('carga_pdf_final')->middleware('auth');
+
 Route::get('logout', function ()
 {
     auth()->logout();
