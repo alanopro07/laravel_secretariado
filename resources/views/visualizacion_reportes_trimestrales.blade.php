@@ -20,7 +20,8 @@
                 <td>{{$documento->estado}}</td>
                 <td>{{$documento->municipio}}</td>
                 <td>{{$documento->status}}</td>
-                <td class="text-center"><a href="" class="a-ginda_link">{{$documento->doc}}</a></td>
+                <td class="text-center"><a href="{{Storage::url($documento->doc)}}" class="a-ginda_link" target="_blank" >DescargarPDF</a></td>
+
             </tr>
             @endforeach
             </tbody>

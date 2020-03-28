@@ -10980,6 +10980,18 @@ button.btn-primary {
   margin-bottom: 10px;
 }
 
+a.btn-primary {
+  border-color: #621132;
+  margin-bottom: 10px;
+  color: white !important;
+}
+
+a.btn-primary:hover {
+  color: #621132 !important;
+  background-color: #f8f8f8;
+  border-color: #4c110f;
+}
+
 button.btn-primary:hover {
   color: #621132;
   background-color: #f8f8f8;

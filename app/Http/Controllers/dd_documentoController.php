@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\dd_documento;
 use App\Models\estadoModel;
 use App\Models\municipioModel;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +16,10 @@ use Illuminate\Support\Facades\Storage;
 
 class dd_documentoController extends Controller
 {
+    const tipo_doc16 = 16;
+    const tipo_doc17 = 17;
+    const tipo_doc18 = 18;
+    const tipo_doc19 = 19;
     /**
      * Display a listing of the resource.
      *
@@ -94,13 +101,14 @@ class dd_documentoController extends Controller
 
         $numero=0;
         $documentos = DB::table('dd_documento')
-            ->join('informetrimestral','informetrimestral.idDocumento','=','dd_documento.idDocumento')
-            ->join('municipio','municipio.idMunicipio','=','informetrimestral.idMunicipio')
-            ->join('estado','estado.idEstado','=','municipio.idEstado')
-            ->join('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
+            ->leftJoin('informetrimestral','informetrimestral.idDocumento','=','dd_documento.idDocumento')
+            ->leftJoin('municipio','municipio.idMunicipio','=','informetrimestral.idMunicipio')
+            ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
+            ->leftJoin('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
             ->select('estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
+            ->whereIn('dd_documento.idTipoDoc',[self::tipo_doc16,self::tipo_doc17,self::tipo_doc18,self::tipo_doc19])
             ->get();
-        
+
         return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
     }
 
@@ -127,22 +135,91 @@ class dd_documentoController extends Controller
             'municipios'=>$municipios,
             'subsidios'=>$subsidios,
             'ejercicios'=>$ejercicios,
-            'trimestres'=>$trimestres
+            'trimestres'=>$trimestres,
+            'status' => false
         ]);
     }
 
-    public function descargarPlantilla()
+    public function descargarPdf(Request $request)
     {
-       return Storage::disk('storage_plantilla')->download('Informe_trimestral_platilla.pdf');
+        $id_municipio = $request->all()['municipio'];
+
+        $input = $request->all();
+
+        $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
+                                            LEFT JOIN 
+                                                (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
+                                                LEFT JOIN bien on concertacion.idBien=bien.idBien
+                                                LEFT JOIN programa on bien.idPrograma=programa.idPrograma
+                                                LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
+                                                WHERE concertacion.b_estado=1 AND concertacion.idMunicipio='$id_municipio' AND subprograma.idSubprograma<>13
+                                                GROUP BY bien.idPrograma, bien.idSubprog) as rep
+                                            on subprograma.idSubprograma=rep.idSubprog
+                                            LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
+                                            ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+
+           $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);
+           $pdf->setPaper('a3','landscape');
+        return $pdf->download('formato_trimestral');
+
+
 
     }
 
-    
+
     public function cargaDatos(Request $request)
     {
+
         $input = $request->all();
 
-        dd($input);
+        $ob = (object)$input;
+
+        $ruta = $ob->reporte_pdf->store('public/reporte_trimestral');
+
+        $municipios = DB::table('usuario_municipio')
+            ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
+            ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
+            ->select('municipio.idMunicipio','municipio.municipio')
+            ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
+
+
+        //query
+        DB::beginTransaction();
+        DB::table('dd_documento')
+            ->insert([
+                'idEjercicio' =>1,
+                'doc'=>$ruta,
+                'idTipoDoc'=>16,
+                'idTabla'=> 1200,
+                'idStatus' => 10,
+                'fecha'=> Carbon::now(),
+                'idUsuario' => Auth::user()->idUsuario,
+                'comentario'=> 'para prueba',
+                'b_estado'=> 1
+            ]);
+
+        $id_documento = $id = DB::getPdo()->lastInsertId();
+
+
+        DB::table('informetrimestral')
+            ->insert([
+               'idDocumento'=> $id_documento,
+                'idTipoDoc'=>16,
+                'idMunicipio'=> $municipios[0]->idMunicipio,
+                'paterno'=> Auth::user()->apellidoPaterno,
+                'materno'=> Auth::user()->apellidoMaterno,
+                'nombres'=> Auth::user()->nombre,
+                'cargo'=> Auth::user()->cargo,
+                'fecha_carga'=> Carbon::now()
+            ]);
+        DB::commit();
+
+        toast('Operacion Exitosa','Se guardo el reporte trimestrarl');
+        return redirect('dashboard');
+
+        //guardado de datos
+
+
     }
 
 }
