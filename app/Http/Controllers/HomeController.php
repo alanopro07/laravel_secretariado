@@ -5,6 +5,7 @@ use App\Repositories\usuarioModelRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\rolModel;
+use App\Models\dd_documento;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
@@ -36,21 +37,18 @@ class HomeController extends Controller
     {
 
         $idRol = Auth::user()->idRol;
-//        $permisos = DB::table('rol')
-//            ->leftJoin('rol_permiso','rol_permiso.idRol','=','rol.idRol')
-//            ->leftJoin('permiso','permiso.idPermiso','=','rol_permiso.idPermiso')
-//            ->leftJoin('etapa','etapa.idEtapa','=','permiso.idEtapa')
-//            ->select('rol.descripcion','etapa.etapa','etapa.descripcion as descricion_etapa','permiso.permiso','permiso.descripcion as permiso_descripcion')
-//            ->where('rol.idRol',$idRol)
-//            ->get();
+
+
+        $builder = DB::table('dd_documento')
+            ->select('idDocumento','idStatus','idTipoDoc')
+            ->where('idUsuario',Auth::user()->idUsuario)
+            ->where('idStatus',dd_documento::documento_observaciones)
+            ->get();
+
 
         //mensaje de bienvenida
         toast('Bienvenid@ '.Auth::user()->login.'!','success');
-        return view('pruebas')->with([
-            'texto1'=>'hola desde controlador prueba1',
-            'texto2' => 'hola desde controlador prueba2',
-            'nombre_seccion'=> 'contenido_pruebas'
-            ]);
+        return view('layouts.siass_layout')->with(['builder'=>$builder]);
     }
 
 }

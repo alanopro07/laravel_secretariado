@@ -195,6 +195,7 @@
     });
 
 </script>
+
 {{--incluir sweet alert--}}
 @include('sweetalert::alert')
 </body>
