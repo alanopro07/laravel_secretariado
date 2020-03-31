@@ -20,81 +20,8 @@ class dd_documentoController extends Controller
     const tipo_doc17 = 17;
     const tipo_doc18 = 18;
     const tipo_doc19 = 19;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
     public function mostrarReportes()
     {
@@ -105,18 +32,23 @@ class dd_documentoController extends Controller
             ->leftJoin('municipio','municipio.idMunicipio','=','informetrimestral.idMunicipio')
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
             ->leftJoin('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
-            ->select('estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
+            ->select('dd_documento.idDocumento','estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
             ->whereIn('dd_documento.idTipoDoc',[self::tipo_doc16,self::tipo_doc17,self::tipo_doc18,self::tipo_doc19])
-            ->get();
+            ->where('dd_documento.idStatus',10)
+            ->paginate(10);
+
 
         return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
     }
 
     public function formularioReporte()
     {
+        $id_usuario = Auth::user()->idRol;
         $subsidios = DB::table('subsidio')->select('idSubsidio','nombreLargo')->where('idSubsidio',1)->get();
         $ejercicios = DB::table('ejercicio')->select('idEjercicio','ejercicio')->where('idEjercicio',1)->get();
         $trimestres = DB::table('ci_trimestres')->select('*')->get();
+
+        //montos ministrados
 
         $estados =  DB::table('usuario_municipio')
             ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
@@ -157,16 +89,32 @@ INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio
 WHERE usuario.idRol='$id_usuario'
 AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
+        $municipio_id = $municipios[0]->idMunicipio;
+
+        $query_osiris = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
+                                                    FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
+                                                    LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
+                                                    INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
+                                                    INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
+                                                    INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
+                                                    WHERE usuario.idRol='$id_usuario'
+                                                    AND usuario_municipio.idMunicipio ='$municipio_id' "));
+
+
         return view('carga_reporte')->with([
             'estados'=>$estados,
             'municipios'=>$municipios,
             'subsidios'=>$subsidios,
             'ejercicios'=>$ejercicios,
             'trimestres'=>$trimestres,
+<<<<<<< HEAD
             'monto_elegibilidad'=>  $elegibilidad[0]->montoElegibilidad ,
             'monto_ministracion'=> $ministracion[0]->montoElegibilidad ,
            
             
+=======
+            'monto_elegilibilidad'=> $query_osiris[0]->montoElegibilidad,
+>>>>>>> 5ecae261e60c85ae69270f95ddb8347970d13afa
             'status' => false
         ]);
     }
@@ -177,17 +125,20 @@ AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         $input = $request->all();
 
-        $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
-                                            LEFT JOIN 
-                                                (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
-                                                LEFT JOIN bien on concertacion.idBien=bien.idBien
-                                                LEFT JOIN programa on bien.idPrograma=programa.idPrograma
-                                                LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
-                                                WHERE concertacion.b_estado=1 AND concertacion.idMunicipio='$id_municipio' AND subprograma.idSubprograma<>13
-                                                GROUP BY bien.idPrograma, bien.idSubprog) as rep
-                                            on subprograma.idSubprograma=rep.idSubprog
-                                            LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
-                                            ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+            $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
+                                                LEFT JOIN 
+                                                    (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
+                                                    LEFT JOIN bien on concertacion.idBien=bien.idBien
+                                                    LEFT JOIN programa on bien.idPrograma=programa.idPrograma
+                                                    LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
+                                                    WHERE concertacion.b_estado=1 AND concertacion.idMunicipio='$id_municipio' 
+                                                    AND subprograma.idSubprograma<>13
+                                                    GROUP BY bien.idPrograma, bien.idSubprog) as rep
+                                                on subprograma.idSubprograma=rep.idSubprog
+                                                LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
+                                                ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+
+
 
            $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);
            $pdf->setPaper('a3','landscape');
@@ -203,6 +154,8 @@ AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         $input = $request->all();
 
+        $id_usuario = Auth::user()->idRol;
+
         $ob = (object)$input;
 
         $ruta = $ob->reporte_pdf->store('public/reporte_trimestral');
@@ -213,6 +166,16 @@ AND usuario_municipio.idMunicipio ='$municipio_id' "));
             ->select('municipio.idMunicipio','municipio.municipio')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
 
+        $municipio_id = $municipios[0]->idMunicipio;
+
+        $query_osiris = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
+                                                    FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
+                                                    LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
+                                                    INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
+                                                    INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
+                                                    INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
+                                                    WHERE usuario.idRol='$id_usuario'
+                                                    AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         //query
         DB::beginTransaction();
@@ -222,10 +185,9 @@ AND usuario_municipio.idMunicipio ='$municipio_id' "));
                 'doc'=>$ruta,
                 'idTipoDoc'=>16,
                 'idTabla'=> 1200,
-                'idStatus' => 10,
+                'idStatus' => dd_documento::documento_enviado,
                 'fecha'=> Carbon::now(),
                 'idUsuario' => Auth::user()->idUsuario,
-                'comentario'=> 'para prueba',
                 'b_estado'=> 1
             ]);
 
@@ -242,14 +204,59 @@ AND usuario_municipio.idMunicipio ='$municipio_id' "));
                 'nombres'=> Auth::user()->nombre,
                 'cargo'=> Auth::user()->cargo,
                 'fecha_carga'=> Carbon::now()
+
             ]);
         DB::commit();
 
-        toast('Operacion Exitosa','Se guardo el reporte trimestrarl');
         return redirect('dashboard');
 
         //guardado de datos
 
+
+    }
+
+
+    //rechazar reporte
+    public function rechazarReporte(Request $request)
+    {
+        $comentario = $request->all()['comentario'];
+        $input = $request->all();
+        $id_documeto = $input['respuesta_documento'];
+
+        //update documento
+
+        DB::beginTransaction();
+
+        DB::table('dd_documento')
+            ->where('idDocumento',$id_documeto)
+            ->update(['idStatus'=>dd_documento::documento_observaciones,
+                      'comentario'=>$comentario
+                    ]);
+        DB::commit();
+
+
+        return redirect('visualizar_reportes_trimestrales');
+
+    }
+
+    //aceptar reporte
+    public function aceptarReporte(Request $request)
+    {
+        $input = $request->all();
+        $id_documeto = $input['respuesta'];
+
+        //update documento
+
+        DB::beginTransaction();
+
+        DB::table('dd_documento')
+            ->where('idDocumento',$id_documeto)
+            ->update([
+                'idStatus'=>dd_documento::documento_aprobado,
+                ]);
+        DB::commit();
+
+        return redirect('visualizar_reportes_trimestrales');
 
     }
 

@@ -3,7 +3,6 @@
 @section('carga_reporte')
 
 
-        {{ Form::open(array('url' => 'carga_datos_pdf', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
 
     @csrf
 
@@ -13,8 +12,13 @@
         <div class="row ">
         
             <div class="col-md-12 bg-light pt-2">
+<<<<<<< HEAD
                 <button type="submit"  class="btn btn-primary btn-block"> Informe Trimestarl</button>
+=======
+                <a href="{{route('pdf')}}" target="_blankw">  <button class="btn btn-primary btn-block"><i class="fa fa-eye" aria-hidden="true"></i> Ver Archivo</button></a>
+>>>>>>> 5ecae261e60c85ae69270f95ddb8347970d13afa
             </div>
+            {{ Form::open(array('url' => 'carga_datos_pdf', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
 
             <div class="col-md-12 bg-light">
                 <div class="form-group">
@@ -42,7 +46,7 @@
                 <div class="form-group">
                     <label>Delegacion/Municipio</label>
                     @foreach($municipios as $municipio)
-                        <input type="text" class="form-control"  name="municipio" value="{{$municipio->idMunicipio}}" id="{{$municipio->idMunicipio}}" readonly>
+                        <input type="text" class="form-control"  name="municipio" value="{{$municipio->municipio}}" id="{{$municipio->idMunicipio}}" readonly>
                         <input type="hidden" class="form-control"  name="municipio_nombre" value="{{$municipio->municipio}}" id="{{$municipio->idMunicipio}}" readonly>
                     @endforeach
 
@@ -89,18 +93,26 @@
                                 </div>
                             </div>
 
+
                             <div class="col-md-12 bg-light">
                                 <div class="col-auto">
                                     <label class="sr-only" for="inlineFormInputGroup">Montos</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text">Montos $</div>
+                                            <div class="input-group-text">Montos ministrado $</div>
                                         </div>
                                         
                                         <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"   value="$ {{$monto_elegibilidad}}" id="monto_ministrado" placeholder="Monto ministrado">
 
+<<<<<<< HEAD
 
                                         <input type="text" class="browser-default custom-select number_moneda"  name="monto"  value="$ {{$monto_ministracion}}" id="monto_no_ministrado" placeholder="Monto no ministrado">
+=======
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Montos no ministrado $</div>
+                                        </div>
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="{{$monto_elegilibilidad}}"  id="monto_no_ministrado" placeholder="Monto no ministrado">
+>>>>>>> 5ecae261e60c85ae69270f95ddb8347970d13afa
                                     </div>
                                 </div>
 
@@ -111,7 +123,6 @@
                                 {{ Form::close() }}
 
                                 {{ Form::open(array('url' => 'carga_pdf_final', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
-
 
                                 <div class="custom-file">
                                     <input type="file"  accept="application/pdf" class="custom-file-input" id="reporte_pdf"  name="reporte_pdf">
@@ -126,5 +137,11 @@
                                 {{ Form::close() }}
                             </div>
                         </div>
+<<<<<<< HEAD
                        
 @endsection
+=======
+
+@endsection
+@include('sweetalert::alert')
+>>>>>>> 5ecae261e60c85ae69270f95ddb8347970d13afa
