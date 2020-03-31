@@ -185,6 +185,7 @@ class dd_documentoController extends Controller
     //rechazar reporte
     public function rechazarReporte(Request $request)
     {
+        $comentario = $request->all()['comentario'];
         $input = $request->all();
         $id_documeto = $input['respuesta_documento'];
 
@@ -194,8 +195,11 @@ class dd_documentoController extends Controller
 
         DB::table('dd_documento')
             ->where('idDocumento',$id_documeto)
-            ->update(['idStatus'=>dd_documento::documento_observaciones]);
+            ->update(['idStatus'=>dd_documento::documento_observaciones,
+                      'comentario'=>$comentario
+                    ]);
         DB::commit();
+
 
         return redirect('visualizar_reportes_trimestrales');
 
@@ -213,7 +217,9 @@ class dd_documentoController extends Controller
 
         DB::table('dd_documento')
             ->where('idDocumento',$id_documeto)
-            ->update(['idStatus'=>dd_documento::documento_aprobado]);
+            ->update([
+                'idStatus'=>dd_documento::documento_aprobado,
+                ]);
         DB::commit();
 
         return redirect('visualizar_reportes_trimestrales');
