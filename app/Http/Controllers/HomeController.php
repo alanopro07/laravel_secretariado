@@ -59,7 +59,7 @@ class HomeController extends Controller
         if(!$builder1->isEmpty() && Auth::user()->idRol == 31 || Auth::user()->idRol == 32)
         {
             toast('El usuario '.Auth::user()->login.' ya tiene documentos aprobados','success');
-            return view('layouts.layouts_aprobados')->with(['mensaje'=> 'Tiene documentos aprobados']);
+            return view('layouts.layouts_aprobados')->with(['mensaje'=> 'Tienes documentos aprobados']);
         }
         if(!$builder2->isEmpty() && Auth::user()->idRol == 31 || Auth::user()->idRol == 32)
         {
