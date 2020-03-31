@@ -107,14 +107,10 @@ AND usuario_municipio.idMunicipio ='$municipio_id' "));
             'subsidios'=>$subsidios,
             'ejercicios'=>$ejercicios,
             'trimestres'=>$trimestres,
-<<<<<<< HEAD
             'monto_elegibilidad'=>  $elegibilidad[0]->montoElegibilidad ,
             'monto_ministracion'=> $ministracion[0]->montoElegibilidad ,
            
             
-=======
-            'monto_elegilibilidad'=> $query_osiris[0]->montoElegibilidad,
->>>>>>> 5ecae261e60c85ae69270f95ddb8347970d13afa
             'status' => false
         ]);
     }
@@ -158,7 +154,7 @@ AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         $ob = (object)$input;
 
-        $ruta = $ob->reporte_pdf->store('public/reporte_trimestral');
+        $ruta = $ob->reporte_pdf->store('public/reporte_trimestral');git 
 
         $municipios = DB::table('usuario_municipio')
             ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
