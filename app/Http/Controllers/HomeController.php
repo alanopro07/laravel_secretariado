@@ -38,7 +38,6 @@ class HomeController extends Controller
 
         $idRol = Auth::user()->idRol;
 
-
         $builder1 = DB::table('dd_documento')
             ->select('idDocumento','idStatus','idTipoDoc')
             ->where('idUsuario',Auth::user()->idUsuario)
@@ -57,17 +56,17 @@ class HomeController extends Controller
             ->where('idStatus',dd_documento::documento_observaciones)
             ->get();
 
-        if(!$builder1->isEmpty() && Auth::user()->idRol == 31 && Auth::user()->idRol == 32)
+        if(!$builder1->isEmpty() && Auth::user()->idRol == 31 || Auth::user()->idRol == 32)
         {
             toast('El usuario '.Auth::user()->login.' ya tiene documentos aprobados','success');
             return view('layouts.layouts_aprobados')->with(['mensaje'=> 'Tiene documentos aprobados']);
         }
-        if(!$builder2->isEmpty() && Auth::user()->idRol == 31 && Auth::user()->idRol == 32)
+        if(!$builder2->isEmpty() && Auth::user()->idRol == 31 || Auth::user()->idRol == 32)
         {
             toast('El usuario '.Auth::user()->login.' el reporte se esta verificando','success');
             return view('layouts.layouts_aprobados')->with(['mensaje'=> 'Los documentos que se enviaron se estan verificando , se dara una respuesta pronto']);
         }
-        if(!$builder3->isEmpty() && Auth::user()->idRol == 31 && Auth::user()->idRol == 32)
+        if(!$builder3->isEmpty() && Auth::user()->idRol == 31 || Auth::user()->idRol == 32)
         {
             toast('El reporte de  el usuario: '.Auth::user()->login.' tuvo errores <br> Favor de verificarlo','error');
             return view('layouts.siass_layout');
