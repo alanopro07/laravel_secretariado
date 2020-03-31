@@ -97,11 +97,14 @@ class dd_documentoController extends Controller
                                                     LEFT JOIN bien on concertacion.idBien=bien.idBien
                                                     LEFT JOIN programa on bien.idPrograma=programa.idPrograma
                                                     LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
-                                                    WHERE concertacion.b_estado=1 AND concertacion.idMunicipio='$id_municipio' AND subprograma.idSubprograma<>13
+                                                    WHERE concertacion.b_estado=1 AND concertacion.idMunicipio='$id_municipio' 
+                                                    AND subprograma.idSubprograma<>13
                                                     GROUP BY bien.idPrograma, bien.idSubprog) as rep
                                                 on subprograma.idSubprograma=rep.idSubprog
                                                 LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
                                                 ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+
+
 
            $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);
            $pdf->setPaper('a3','landscape');
@@ -129,7 +132,7 @@ class dd_documentoController extends Controller
             ->select('municipio.idMunicipio','municipio.municipio')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
 
-        $muicipio_id = $municipios[0]->idMunicipio;
+        $municipio_id = $municipios[0]->idMunicipio;
 
         $query_osiris = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
                                                     FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
@@ -171,7 +174,6 @@ class dd_documentoController extends Controller
             ]);
         DB::commit();
 
-        toast('Operacion Exitosa','Se guardo el reporte trimestrarl');
         return redirect('dashboard');
 
         //guardado de datos
@@ -184,7 +186,6 @@ class dd_documentoController extends Controller
     public function rechazarReporte(Request $request)
     {
         $input = $request->all();
-        dd($input);
         $id_documeto = $input['respuesta_documento'];
 
         //update documento

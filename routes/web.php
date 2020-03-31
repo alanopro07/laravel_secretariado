@@ -54,7 +54,7 @@ Route::post('carga_pdf_final','dd_documentoController@cargaDatos')->name('carga_
 
 Route::post('rechazarazar_reporte','dd_documentoController@rechazarReporte')->name('rechazar')->middleware('auth');
 
-    Route::post('aceptar_reporte','dd_documentoController@aceptarReporte')->name('aceptar')->middleware('auth');
+Route::post('aceptar_reporte','dd_documentoController@aceptarReporte')->name('aceptar')->middleware('auth');
 
 Route::get('logout', function ()
 {

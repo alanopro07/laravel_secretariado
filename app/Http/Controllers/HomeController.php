@@ -39,16 +39,44 @@ class HomeController extends Controller
         $idRol = Auth::user()->idRol;
 
 
-        $builder = DB::table('dd_documento')
+        $builder1 = DB::table('dd_documento')
+            ->select('idDocumento','idStatus','idTipoDoc')
+            ->where('idUsuario',Auth::user()->idUsuario)
+            ->where('idStatus',dd_documento::documento_aprobado)
+            ->get();
+
+        $builder2 = DB::table('dd_documento')
+            ->select('idDocumento','idStatus','idTipoDoc')
+            ->where('idUsuario',Auth::user()->idUsuario)
+            ->where('idStatus',dd_documento::documento_enviado)
+            ->get();
+
+        $builder3 = DB::table('dd_documento')
             ->select('idDocumento','idStatus','idTipoDoc')
             ->where('idUsuario',Auth::user()->idUsuario)
             ->where('idStatus',dd_documento::documento_observaciones)
             ->get();
 
+        if(!$builder1->isEmpty() && Auth::user()->idRol == 31 && Auth::user()->idRol == 32)
+        {
+            toast('El usuario '.Auth::user()->login.' ya tiene documentos aprobados','success');
+            return view('layouts.layouts_aprobados')->with(['mensaje'=> 'Tiene documentos aprobados']);
+        }
+        if(!$builder2->isEmpty() && Auth::user()->idRol == 31 && Auth::user()->idRol == 32)
+        {
+            toast('El usuario '.Auth::user()->login.' el reporte se esta verificando','success');
+            return view('layouts.layouts_aprobados')->with(['mensaje'=> 'Los documentos que se enviaron se estan verificando , se dara una respuesta pronto']);
+        }
+        if(!$builder3->isEmpty() && Auth::user()->idRol == 31 && Auth::user()->idRol == 32)
+        {
+            toast('El reporte de  el usuario: '.Auth::user()->login.' tuvo errores <br> Favor de verificarlo','error');
+            return view('layouts.siass_layout');
+
+        }
 
         //mensaje de bienvenida
         toast('Bienvenid@ '.Auth::user()->login.'!','success');
-        return view('layouts.siass_layout')->with(['builder'=>$builder]);
+        return view('layouts.siass_layout');
     }
 
 }
