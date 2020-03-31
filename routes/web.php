@@ -1,4 +1,7 @@
 <?php
+
+use Barryvdh\DomPDF\Facade as PDF;
+
 Route::get('/', function () {
     return view('welcome');
 })->name('inicio');
@@ -35,16 +38,23 @@ Route::get('cargar_reporte_trimestral','dd_documentoController@formularioReporte
  */
 Route::post('carga_datos_pdf','dd_documentoController@descargarPdf')->name('carga_datos_pdf')->middleware('auth');
 
-Route::post('pdf',function (){
+Route::get('pdf',function (){
 
 
-    $pdf = PDF::loadView('reportes.reporte_pdf');
+    $pdf = PDF::loadView('reportes.ejemplo_reporte');
     $pdf->setPaper('a3','landscape');
-    $pdf->stream();
-    return redirect('cargar_reporte_trimestral');
-});
+    return $pdf->stream();
+
+})->name('pdf');
 
 Route::post('carga_pdf_final','dd_documentoController@cargaDatos')->name('carga_pdf_final')->middleware('auth');
+
+
+//aorobar y eliminar registros
+
+Route::post('rechazarazar_reporte','dd_documentoController@rechazarReporte')->name('rechazar')->middleware('auth');
+
+Route::post('aceptar_reporte','dd_documentoController@aceptarReporte')->name('aceptar')->middleware('auth');
 
 Route::get('logout', function ()
 {

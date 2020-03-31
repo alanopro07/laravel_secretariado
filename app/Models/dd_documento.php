@@ -27,6 +27,9 @@ use Illuminate\Database\Eloquent\Model as Model;
 class dd_documento extends Model
 {
 
+    const documento_aprobado = 50;
+    const documento_observaciones = 30;
+    const documento_enviado = 10;
     public $table = 'dd_documento';
     
 
