@@ -30,14 +30,37 @@
 
                     {!! Form::open(['route' => ['aceptar'], 'method' => 'post']) !!}
                     <input type="hidden" name="respuesta" value="{{$documento->idDocumento}}" readonly>
-                    <button  type="submit"   class="btn btn-primary" ><i class="far fa-check-square" style="font-size: 20px"></i>
-                    </button>
+
+                    <button  type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalAceptar" ><i class="far fa-check-square" style="font-size: 20px"></i></button>
+
                     {!! Form::close() !!}
                 </td>
                 <td style="width: 10px">
                     {!! Form::open(['route' => ['rechazar'], 'method' => 'post']) !!}
-                    <input type="hidden" name="respuesta_documento" value="{{$documento->idDocumento}}" readonly>
-                    <button  type="submit"   class="btn btn-primary" ><i class="far fa-times-circle" style="font-size: 20px"></i></button>
+                    <button  type="button"   class="btn btn-primary" data-toggle="modal" data-target="#modalRechazo"><i class="far fa-times-circle" style="font-size: 20px"></i></button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalRechazo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="exampleModalLabel">Motivo de rechazo</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body d-flex justify-content-center">
+                                    <input type="hidden" name="respuesta_documento" value="{{$documento->idDocumento}}" readonly>
+                                    <textarea class="text-center" name="comentario" id="comentario" cols="30" rows="10"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {!! Form::close() !!}
                 </td>
             </tr>
