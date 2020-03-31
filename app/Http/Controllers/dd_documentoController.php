@@ -129,6 +129,33 @@ class dd_documentoController extends Controller
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
             ->select('municipio.idMunicipio','municipio.municipio')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
+        
+
+
+
+
+
+                  $municipio_id = $municipios[0]-> idMunicipio;
+                  $id_usuario=Auth::user()->idRol;
+                  
+                  
+            $elegibilidad = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
+                                                    FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
+                                                    LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
+                                                    INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
+                                                    INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
+                                                    INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
+                                                    WHERE usuario.idRol='$id_usuario'
+                                                    AND usuario_municipio.idMunicipio ='$municipio_id' "));
+
+$ministracion = DB::select(DB::raw("SELECT  min.monto as montoElegibilidad 
+FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
+LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
+INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
+INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
+INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
+WHERE usuario.idRol='$id_usuario'
+AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         return view('carga_reporte')->with([
             'estados'=>$estados,
@@ -136,6 +163,10 @@ class dd_documentoController extends Controller
             'subsidios'=>$subsidios,
             'ejercicios'=>$ejercicios,
             'trimestres'=>$trimestres,
+            'monto_elegibilidad'=>  $elegibilidad[0]->montoElegibilidad ,
+            'monto_ministracion'=> $ministracion[0]->montoElegibilidad ,
+           
+            
             'status' => false
         ]);
     }
@@ -160,7 +191,7 @@ class dd_documentoController extends Controller
 
            $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);
            $pdf->setPaper('a3','landscape');
-        return $pdf->download('formato_trimestral');
+        return $pdf->download('formato_trimestral.pdf');
 
 
 

@@ -21,7 +21,7 @@
                     <label for="reporte trimestral" class="bg-white text-center">Reporte trimestral</label>
                     <li class="nav-item has-treeview">
                         <a href="{{route('cargar_reporte_trimestral')}}" class="nav-link">
-                            <i class="nav-icon fas fa-circle"></i>
+                        <i class="fas fa-book"></i>
                             <p class="btn-primario">
                                 Cargar Reporte
                                 <i class="right fas fa-plus"></i>

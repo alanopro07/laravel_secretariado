@@ -6,10 +6,14 @@
         {{ Form::open(array('url' => 'carga_datos_pdf', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
 
     @csrf
+
+<page footer="page" pageset='new' backtop='10mm' backbottom=15mm' backleft='5mm' backright='15mm' style="font-size: 12px; ">
+
     <div class="container ">
         <div class="row ">
+        
             <div class="col-md-12 bg-light pt-2">
-                <button type="submit"  class="btn btn-primary btn-block"><i class="fa fa-eye" aria-hidden="true"></i> Ver Archivo</button>
+                <button type="submit"  class="btn btn-primary btn-block"> Informe Trimestarl</button>
             </div>
 
             <div class="col-md-12 bg-light">
@@ -59,7 +63,7 @@
                     <div class="row text-center">
                         <div class="col-md-12">
 
-                            <h3 class=" .invalid-feedback  ">Responsable de la firma de los Informes Trimestrales</h3>
+                            <h1>Responsable de la Firma de los Informes Trimestrales</h1>
                         </div>
                         <div class="col-md-12 bg-light">
                             <div class="col-auto">
@@ -92,15 +96,16 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Montos $</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"  id="monto_ministrado" placeholder="Monto ministrado">
+                                        
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"   value="$ {{$monto_elegibilidad}}" id="monto_ministrado" placeholder="Monto ministrado">
 
 
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado"  id="monto_no_ministrado" placeholder="Monto no ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto"  value="$ {{$monto_ministracion}}" id="monto_no_ministrado" placeholder="Monto no ministrado">
                                     </div>
                                 </div>
 
                                 <div class="col-md-12 bg-light pt-2">
-                                    <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Generar formato de descarga</button>
+                                    <button type="submit" class="btn btn-lg btn-primary"><i class="fas fa-download"></i> Generar formato de descarga</button>
                                 </div>
 
                                 {{ Form::close() }}
@@ -113,14 +118,13 @@
                                     <label class="custom-file-label" for="validatedCustomFile"><i class="fa fa-floppy-o" aria-hidden="true"></i> Adjuntar y Guardar</label>
                                 </div>
                                 <div class="col-md-12 bg-light pt-2">
-                                    <a href="{{url('dashboard')}}" class="btn btn-lg btn-primary"  style="color: white">Regresar</a>
-                                    <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
+                                   
+                                    <button type="submit" class="btn btn-lg btn-primary"><i class="fas fa-save"></i> Adjuntar y Guardar</button>
                                 </div>
+                                
 
                                 {{ Form::close() }}
                             </div>
                         </div>
-
-
-
+                       
 @endsection
