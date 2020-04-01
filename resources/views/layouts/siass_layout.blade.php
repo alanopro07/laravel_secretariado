@@ -4,6 +4,7 @@
 <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Siass</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,7 +45,7 @@
             </li>
 
         </ul>
-        <img src="{{ Storage::url(Auth::user()->foto)  }}" class="img-circle ml-2" style="width: 25px; height: 25px;"  alt="avatar">
+{{--        <img src="{{ Storage::url(Auth::user()->foto)  }}" class="img-circle ml-2" style="width: 25px; height: 25px;"  alt="avatar">--}}
 
     </nav>
     <!-- /.navbar -->
@@ -86,7 +87,7 @@
         @endif
 
         @if(Auth::user()->idRol==31 || Auth::user()->idRol==32)
-            @yield('contenido_pruebas')
+            @yield('carga_reporte')
         @endif
             <!-- FIN Contenido de la Vista ----->
         </section>
@@ -140,6 +141,8 @@
 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 
+{{--<script type="text/javascript" src="{{asset('js/municipios.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('js/select_estados.js')}}"></script>--}}
 <script >
     $('#datetime').datepicker({
         format: 'yyyy/mm/dd',
@@ -159,6 +162,20 @@
 
     });
 
+    $('.number_moneda').on({
+        "focus": function(event) {
+            $(event.target).select();
+        },
+        "keyup": function(event) {
+            $(event.target).val(function(index, value) {
+                return value.replace(/\D/g, "")
+                    .replace(/([0-9])([0-9]{2})$/, '$1.$2')
+                    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+            });
+        }
+    });
+
+
 </script>
 
 
@@ -176,7 +193,9 @@
         indiceInicial ++;
         $("#bloque"+indiceInicial).show(500);
     });
+
 </script>
+
 {{--incluir sweet alert--}}
 @include('sweetalert::alert')
 </body>

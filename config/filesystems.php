@@ -54,7 +54,12 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-
+        'storage_plantilla' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/plantilla'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
         'storage_comprobante_domicilio_fiscal' => [
             'driver' => 'local',
             'root' => storage_path('app/public/storage/domicilio_fiscal'),

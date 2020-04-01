@@ -1,0 +1,70 @@
+[
+    {
+        "name": "idEstado",
+        "dbType": "integer,false",
+        "htmlType": null,
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "idMun",
+        "dbType": "integer,false",
+        "htmlType": null,
+        "validations": null,
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "idMunicipio",
+        "dbType": "integer,false",
+        "htmlType": null,
+        "validations": null,
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "municipio",
+        "dbType": "string,128:nullable",
+        "htmlType": "text",
+        "validations": null,
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Estado,idEstado"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Concertacion,idMunicipio"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Elegibilidad,idMunicipio"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Evaluacionbd,idMunicipio"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,UsuarioMunicipio,idMunicipio"
+    }
+]
