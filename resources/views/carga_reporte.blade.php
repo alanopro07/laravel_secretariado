@@ -21,12 +21,9 @@
                 </div>
                 <div class="form-group">
                     <label>Nombre del Subsidio</label>
-                    <select class="browser-default custom-select estado" name="subsidio" id="subsidio" required>
-                        <option value="">Selecciona Subsidio</option>
                         @foreach($subsidios as $subsidio)
-                            <option value="{{$subsidio->idSubsidio}}">{{$subsidio->nombreLargo}}</option>
+                            <input type="text" class="form-control"  name="{{$subsidio->nombreLargo}}" value="{{$subsidio->nombreLargo}}" id="{{$ejercicio->idEjercicio}}" readonly>
                         @endforeach
-                    </select>
                 </div>
                 <div class="form-group">
                     <label>Entidad Federativa</label>
@@ -39,7 +36,7 @@
                     <label>Delegacion/Municipio</label>
                     @foreach($municipios as $municipio)
                         <input type="text" class="form-control"  name="municipio" value="{{$municipio->municipio}}" id="{{$municipio->idMunicipio}}" readonly>
-                        <input type="hidden" class="form-control"  name="municipio_nombre" value="{{$municipio->municipio}}" id="{{$municipio->idMunicipio}}" readonly>
+                        <input type="hidden" class="form-control"  name="municipio_id" value="{{$municipio->idMunicipio}}" id="{{$municipio->idMunicipio}}" readonly>
                     @endforeach
 
                 </div>
@@ -81,7 +78,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Cargo</div>
                                     </div>
-                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Cargo del Responsable">
+                                    <input type="text" name="cargo" class="form-control" id="cargo" placeholder="Cargo del Responsable">
                                 </div>
                             </div>
 
@@ -93,12 +90,12 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Montos ministrado $</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"  id="monto_ministrado" placeholder="Monto ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado" value="{{$montoministrado}}"  id="monto_ministrado" placeholder="Monto ministrado">
 
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Montos no ministrado $</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="{{$monto_elegilibilidad}}"  id="monto_no_ministrado" placeholder="Monto no ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="{{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado">
                                     </div>
                                 </div>
 
@@ -111,7 +108,7 @@
                                 {{ Form::open(array('url' => 'carga_pdf_final', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
 
                                 <div class="custom-file">
-                                    <input type="file"  accept="application/pdf" class="custom-file-input" id="reporte_pdf"  name="reporte_pdf">
+                                    <input type="file"  accept="application/pdf" class="custom-file-input" id="reporte_pdf"  name="reporte_pdf" required>
                                     <label class="custom-file-label" for="validatedCustomFile"><i class="fa fa-floppy-o" aria-hidden="true"></i> Adjuntar y Guardar</label>
                                 </div>
                                 <div class="col-md-12 bg-light pt-2">
