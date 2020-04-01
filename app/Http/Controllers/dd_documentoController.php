@@ -64,14 +64,13 @@ class dd_documentoController extends Controller
 
         $municipio_id = $municipios[0]->idMunicipio;
 
-        $query_osiris = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
-                                                    FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
-                                                    LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
-                                                    INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
-                                                    INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
-                                                    INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
-                                                    WHERE usuario.idRol='$id_usuario'
-                                                    AND usuario_municipio.idMunicipio ='$municipio_id' "));
+                $ministrado = DB::select(DB::raw(" SELECT monto*.8 as Ministrado  FROM elegibilidad 
+                                                WHERE idMunicipio='$municipio_id'"));
+
+
+                $noministrado = DB::select(DB::raw("SELECT  monto*.20 as NoMinistrado  FROM `elegibilidad` 
+                                               WHERE idMunicipio ='$municipio_id'"));
+
 
 
         return view('carga_reporte')->with([
@@ -80,17 +79,22 @@ class dd_documentoController extends Controller
             'subsidios'=>$subsidios,
             'ejercicios'=>$ejercicios,
             'trimestres'=>$trimestres,
-            'monto_elegilibilidad'=> $query_osiris[0]->montoElegibilidad,
+            'montoministrado'=>$ministrado[0]->Ministrado,
+            'montonoministrado'=> $noministrado[0]->NoMinistrado,
             'status' => false
         ]);
     }
 
     public function descargarPdf(Request $request)
     {
-        $id_municipio = $request->all()['municipio'];
+
+        $id_municipio = $request->all()['municipio_id'];
+
 
         $input = $request->all();
 
+
+//        dd($input['municipio']);
             $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
                                                 LEFT JOIN 
                                                     (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
@@ -103,7 +107,6 @@ class dd_documentoController extends Controller
                                                 on subprograma.idSubprograma=rep.idSubprog
                                                 LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
                                                 ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
-
 
 
            $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);
