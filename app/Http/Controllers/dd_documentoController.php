@@ -95,7 +95,7 @@ class dd_documentoController extends Controller
 
 
 //        dd($input['municipio']);
-            $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
+            $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM, IFNULL(rep.SUM,0) as SUMA FROM `subprograma`
                                                 LEFT JOIN 
                                                     (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
                                                     LEFT JOIN bien on concertacion.idBien=bien.idBien
@@ -106,17 +106,27 @@ class dd_documentoController extends Controller
                                                     GROUP BY bien.idPrograma, bien.idSubprog) as rep
                                                 on subprograma.idSubprograma=rep.idSubprog
                                                 LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
+             
                                                 ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
 
 
-           $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);
+$TOTAL = DB::select(DB::raw("SELECT SUM(concertacion.costoTotal) as totalsuma FROM `concertacion` 
+LEFT JOIN bien on concertacion.idBien=bien.idBien
+WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<>13"));
+
+
+
+                                                
+
+
+           $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql,'total'=>$TOTAL[0]->totalsuma] );
            $pdf->setPaper('a3','landscape');
         return $pdf->download('formato_trimestral.pdf');
 
 
 
     }
-
+ 
 
     public function cargaDatos(Request $request)
     {
@@ -162,6 +172,7 @@ class dd_documentoController extends Controller
                 'nombres'=> Auth::user()->nombre,
                 'cargo'=> Auth::user()->cargo,
                 'fecha_carga'=> Carbon::now()
+                
 
             ]);
         DB::commit();
