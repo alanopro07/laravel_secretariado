@@ -60,6 +60,44 @@
             <span class="brand-text font-weight-light">1ra Ministración</span>
         </a>
 
+        @if($status ?? '' == true)
+            div class="sidebar" >
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                {{--     menu-machote           --}}
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                    @if(Auth::user()->idRol==140)
+                        <label for="reporte trimestral" class="bg-white text-center">Reporte trimestral</label>
+                        <li class="nav-item has-treeview">
+                            <a href="{{route('visualizar_reportes_trimestrales')}}" class="nav-link">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p class="btn-primario">
+                                    Lista de documentos
+                                    <i class="right fas fa-plus"></i>
+                                </p>
+                            </a>
+                        </li>
+                    @endif
+                    @if(Auth::user()->idRol==31 || Auth::user()->idRol==32)
+                        <label for="reporte trimestral" class="bg-white text-center">Reporte trimestral</label>
+                        <li class="nav-item has-treeview">
+                            <a href="{{route('cargar_reporte_trimestral')}}" class="nav-link">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p class="btn-primario">
+                                    Cargar Reporte
+                                    <i class="right fas fa-plus"></i>
+                                </p>
+                            </a>
+                        </li>
+                    @endif
+
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        @endif
+
     <!-- /.sidebar -->
     </aside>
 
@@ -71,15 +109,45 @@
         <section class="content-header text-center">
             <div class="container-fluid">
                 <div class="row">
-                    {{--                     <h1>Dashboard  {{$municipio  }}  -  Estado: {{$estado}}</h1>
-                     --}}                </div>
+                  </div>
             </div><!-- /.container-fluid -->
         </section>
 
         <!-- Main content -->
         <section class="content">
 
-        <h1>{{$mensaje}}</h1>
+
+
+            <div class="container">
+                <h4 class="mt-3 mb-4 text-center">Historial de reportes</h4>
+                <table class="table table-striped">
+                    <thead>
+
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Stauts</th>
+                        <th scope="col">Tipo de documento</th>
+                        <th scope="col">Comentarios</th>
+                        <th scope="col">Descargar documento</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                @foreach($builder as $dato)
+                        <tr>
+                        <th>{{$contador=$contador+1}}</th>
+                        <td>{{$dato->fecha}}</td>
+                        <td>{{$dato->status}}</td>
+                        <td>{{$dato->tipoDoc}}</td>
+                        <td scope="row">{{$dato->comentario}}</td>
+                        <td ><a href="{{Storage::url($dato->doc)}}" target="_blank"><i class="fas fa-download ml-5 a-ginda_link" style="font-size: 22px" ></i></a></td>
+                @endforeach
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
         <!-- FIN Contenido de la Vista ----->
         </section>
         <!-- INICIO FORM MASTER -->
