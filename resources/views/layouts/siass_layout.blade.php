@@ -81,6 +81,35 @@
         <!-- Main content -->
         <section class="content">
 
+            @if($status  ?? ''== true)
+                <h4 class="mt-3 mb-4 text-center">Historial de reportes</h4>
+                <table class="table table-striped">
+                    <thead>
+
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Stauts</th>
+                        <th scope="col">Tipo de documento</th>
+                        <th scope="col">Comentarios</th>
+                        <th scope="col">Descargar documento</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($builder as $dato)
+                        <tr>
+                            <th>{{$contador=$contador+1}}</th>
+                            <td>{{$dato->fecha}}</td>
+                            <td>{{$dato->status}}</td>
+                            <td>{{$dato->tipoDoc}}</td>
+                            <td scope="row">{{$dato->comentario}}</td>
+                            <td ><a href="{{Storage::url($dato->doc)}}" target="_blank"><i class="fas fa-download ml-5 a-ginda_link" style="font-size: 22px" ></i></a></td>
+                            @endforeach
+                        </tr>
+                    </tbody>
+                </table>
+            @endif
+
         {{-- contenido del body --}}
         @if(Auth::user()->idRol==140)
             @yield('visualizar_reportes')
@@ -141,8 +170,6 @@
 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 
-{{--<script type="text/javascript" src="{{asset('js/municipios.js')}}"></script>--}}
-{{--<script type="text/javascript" src="{{asset('js/select_estados.js')}}"></script>--}}
 <script >
     $('#datetime').datepicker({
         format: 'yyyy/mm/dd',
@@ -161,20 +188,6 @@
             });
 
     });
-
-    $('.number_moneda').on({
-        "focus": function(event) {
-            $(event.target).select();
-        },
-        "keyup": function(event) {
-            $(event.target).val(function(index, value) {
-                return value.replace(/\D/g, "")
-                    .replace(/([0-9])([0-9]{2})$/, '$1.$2')
-                    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-            });
-        }
-    });
-
 
 </script>
 

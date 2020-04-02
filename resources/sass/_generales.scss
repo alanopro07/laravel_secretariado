@@ -17,6 +17,7 @@ a{
     color: grey;
     transition: background .3s ease-in, color .3s ease-in;
     &:hover{
+        color: #0e5b44;
         text-decoration: none;
     }
 }

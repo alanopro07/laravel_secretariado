@@ -123,7 +123,6 @@ class dd_documentoController extends Controller
 
         $input = $request->all();
 
-        $id_usuario = Auth::user()->idRol;
 
         $ob = (object)$input;
 
@@ -135,16 +134,6 @@ class dd_documentoController extends Controller
             ->select('municipio.idMunicipio','municipio.municipio')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
 
-        $municipio_id = $municipios[0]->idMunicipio;
-
-        $query_osiris = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
-                                                    FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
-                                                    LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
-                                                    INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
-                                                    INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
-                                                    INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
-                                                    WHERE usuario.idRol='$id_usuario'
-                                                    AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         //query
         DB::beginTransaction();
@@ -188,21 +177,22 @@ class dd_documentoController extends Controller
     //rechazar reporte
     public function rechazarReporte(Request $request)
     {
+
         $comentario = $request->all()['comentario'];
         $input = $request->all();
-        $id_documeto = $input['respuesta_documento'];
+        $id_documento = $input['respuesta_documento'];
 
         //update documento
+
 
         DB::beginTransaction();
 
         DB::table('dd_documento')
-            ->where('idDocumento',$id_documeto)
+            ->where('idDocumento',$id_documento)
             ->update(['idStatus'=>dd_documento::documento_observaciones,
                       'comentario'=>$comentario
                     ]);
         DB::commit();
-
 
         return redirect('visualizar_reportes_trimestrales');
 
