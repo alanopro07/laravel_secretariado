@@ -87,15 +87,13 @@ class dd_documentoController extends Controller
 
     public function descargarPdf(Request $request)
     {
-
+        
         $id_municipio = $request->all()['municipio_id'];
 
 
         $input = $request->all();
 
-
-//        dd($input['municipio']);
-            $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
+         $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
                                                 LEFT JOIN 
                                                     (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
                                                     LEFT JOIN bien on concertacion.idBien=bien.idBien
@@ -172,6 +170,7 @@ class dd_documentoController extends Controller
 
 
     }
+
 
 
     //rechazar reporte
