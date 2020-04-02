@@ -46,12 +46,12 @@
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;"  colspan="8">Entidad Federativa: {{ $input['estado'] }}</td>
         <td style="padding:8; ">Ministrado </td>
-        <td style="padding:8; text-align:right;"> {{ $input['monto_ministrado'] }} </td>
+        <td style="padding:8; text-align:right;"> $ {{ $input['monto_ministrado'] }} </td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="8">Municipio: {{ $input['municipio']}} </td>
         <td style="padding:8;">No Ministrado</td>
-        <td style="padding:8; text-align:right;">{{ $input['monto_no_ministrado'] }}</td>
+        <td style="padding:8; text-align:right;">$ {{ $input['monto_no_ministrado'] }}</td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="10" align="justify">Subsidio para el fortalecimiento del desempeño en materia de seguridad publica a los municipios y demarcaciones territoriales de la Ciudad de México y, en su caso, a las entidades federativas que ejerzan de manera directa o coordinada la función para el ejercicio fiscal {{$input['anio_fiscal']}} </td>
@@ -133,21 +133,22 @@
     @endforeach
     <tr style='background: #621132; color:#ffffff'>
         <td style='text-align:right; padding: 6; '>TOTAL</td>
-        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '> $ {{$total}} </td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ </td>
+        <td style='text-align:right; padding: 6; '>${{$total}} </td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ </td>
+        <td style='text-align:right; padding: 6; '>$ {{$total}}</td>
     </tr>
 
     <tr>
         <td style="padding: 35; border:none" colspan="5" align="center"><br><br><br>
             __________________________________________ <br><br>
-           <span style="margin-left: 20px;text-transform: uppercase;"> C. {{$input['nombre']}} {{$input['primer_apellido']}} {{$input['segundo_apellido']}} </span>
+           <span style="margin-left: 20px;text-transform: uppercase;">  C. {{$input['nombre']}} {{$input['primer_apellido']}} {{$input['segundo_apellido']}}</span> <br>
+           <span style="margin-left: 20px;text-transform: uppercase;"> {{$input['cargo']}} de {{ $input['municipio']}} , {{ $input['estado'] }} </span>
 
         </td>
         <td style="padding: 35; border:none" colspan="5" align="cen2020ter"><br><br><br>

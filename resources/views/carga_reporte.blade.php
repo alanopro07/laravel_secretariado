@@ -91,12 +91,12 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Montos ministrado $</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado" value="{{$montoministrado}}"  id="monto_ministrado" placeholder="Monto ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado" value="$ {{$montoministrado}}"  id="monto_ministrado" placeholder="Monto ministrado">
 
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Montos no ministrado $</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="{{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="$ {{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado">
                                     </div>
                                 </div>
 
