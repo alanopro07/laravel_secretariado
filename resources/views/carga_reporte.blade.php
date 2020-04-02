@@ -6,9 +6,10 @@
 
     @csrf
     <div class="container ">
-        <div class="row ">
+        <div class="row text-center ">
+        
             <div class="col-md-12 bg-light pt-2">
-                <a href="{{route('pdf')}}" target="_blankw">  <button class="btn btn-primary btn-block"><i class="fa fa-eye" aria-hidden="true"></i> Ver Archivo</button></a>
+                <a target="_blankw">  <button class="btn btn-primary btn-block">Informe Trimestral</button></a>
             </div>
             {{ Form::open(array('url' => 'carga_datos_pdf', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
 
@@ -42,7 +43,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Informe Trimestral</label>
+                    <label >Informe Trimestral</label>
                     <select class="browser-default custom-select" name="trimestre" id="trimestre" required >
                         <option value="" >Selecciona Informe Trimestral</option>
                         @foreach($trimestres as $trimestre)
@@ -56,7 +57,7 @@
                     <div class="row text-center">
                         <div class="col-md-12">
 
-                            <h3 class=" .invalid-feedback  ">Responsable de la firma de los Informes Trimestrales</h3>
+                            <h1 class=" .invalid-feedback  ">Responsable de la Firma de los Informes Trimestrales</h1>
                         </div>
                         <div class="col-md-12 bg-light">
                             <div class="col-auto">
@@ -113,7 +114,7 @@
                                 </div>
                                 <div class="col-md-12 bg-light pt-2">
                                     
-                                    <button type="submit" class="btn btn-lg btn-primary">Adjuntar y Guardar</button>
+                                    <button type="submit" class="btn btn-lg btn-primary"><i class="fas fa-save"></i> Adjuntar y Guardar</button>
                                 </div>
 
                                 {{ Form::close() }}

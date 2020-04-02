@@ -106,7 +106,12 @@ class dd_documentoController extends Controller
                                                     GROUP BY bien.idPrograma, bien.idSubprog) as rep
                                                 on subprograma.idSubprograma=rep.idSubprog
                                                 LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
+             
                                                 ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+
+       
+   
+
 
 
            $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);

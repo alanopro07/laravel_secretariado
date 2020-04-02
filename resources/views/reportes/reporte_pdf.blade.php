@@ -98,49 +98,52 @@
 
 
 {{--        {{dd($dato)}}--}}
+
+
     <tr>
         <td style='text-align:left; padding: 6; width:120px;'>{{$dato->subprograma}}</td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
     </tr>
 
 
     <tr style='background: #9D2444; color:#ffffff'>
         <td style='text-align:right; padding: 6; '>SUBTOTAL</td>
-        <td style='text-align:right; padding: 6; '>{{$dato->SUM}}</td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
     </tr>
 
 
 
+
+    @endforeach
     <tr style='background: #621132; color:#ffffff'>
         <td style='text-align:right; padding: 6; '>TOTAL</td>
         <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ </td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ </td>
     </tr>
 
-    @endforeach
     <tr>
         <td style="padding: 35; border:none" colspan="5" align="center"><br><br><br>
             __________________________________________ <br><br>
