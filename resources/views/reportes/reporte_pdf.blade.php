@@ -46,12 +46,12 @@
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;"  colspan="8">Entidad Federativa: {{ $input['estado'] }}</td>
         <td style="padding:8; ">Ministrado </td>
-        <td style="padding:8; text-align:right;"> $ {{ $input['monto_ministrado'] }} </td>
+        <td style="padding:8; text-align:right;">  {{ $input['monto_ministrado'] }} </td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="8">Municipio: {{ $input['municipio']}} </td>
         <td style="padding:8;">No Ministrado</td>
-        <td style="padding:8; text-align:right;">$ {{ $input['monto_no_ministrado'] }}</td>
+        <td style="padding:8; text-align:right;"> {{ $input['monto_no_ministrado'] }}</td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="10" align="justify">Subsidio para el fortalecimiento del desempeño en materia de seguridad publica a los municipios y demarcaciones territoriales de la Ciudad de México y, en su caso, a las entidades federativas que ejerzan de manera directa o coordinada la función para el ejercicio fiscal {{$input['anio_fiscal']}} </td>
