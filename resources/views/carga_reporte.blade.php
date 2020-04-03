@@ -66,9 +66,9 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Nombre Completo</div>
                                     </div>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
-                                    <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" placeholder="Primer Apellido" required>
-                                    <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" placeholder="Segundo Apellido" required>
+                                    <input type="text" class="form-control" onkeypress="return soloLetras(event)" maxlength="50" id="nombre" name="nombre" placeholder="Nombre"  required >
+                                    <input type="text" class="form-control" onkeypress="return soloLetras(event)" maxlength="50"id="primer_apellido" name="primer_apellido" placeholder="Primer Apellido" required>
+                                    <input type="text" class="form-control" onkeypress="return soloLetras(event)" maxlength="50" id="segundo_apellido" name="segundo_apellido" placeholder="Segundo Apellido" required>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Cargo</div>
                                     </div>
-                                    <input type="text" name="cargo" class="form-control" id="cargo" placeholder="Cargo del Responsable">
+                                    <input type="text" name="cargo" class="form-control" id="cargo" onkeypress="return soloLetras(event)" maxlength="30" placeholder="Cargo del Responsable">
                                 </div>
                             </div>
 
@@ -91,12 +91,12 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Montos ministrado $</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado" value="$ {{$montoministrado}}"  id="monto_ministrado" placeholder="Monto ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado" value="$ {{$montoministrado}}"  id="monto_ministrado" placeholder="Monto ministrado" readonly>
 
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Montos no ministrado $</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="$ {{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="$ {{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado" readonly>
                                     </div>
                                 </div>
 
