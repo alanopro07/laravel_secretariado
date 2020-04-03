@@ -87,15 +87,13 @@ class dd_documentoController extends Controller
 
     public function descargarPdf(Request $request)
     {
-
+        
         $id_municipio = $request->all()['municipio_id'];
 
 
         $input = $request->all();
 
-
-//        dd($input['municipio']);
-            $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM, IFNULL(rep.SUM,0) as SUMA FROM `subprograma`
+         $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
                                                 LEFT JOIN 
                                                     (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
                                                     LEFT JOIN bien on concertacion.idBien=bien.idBien
@@ -133,7 +131,6 @@ WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<
 
         $input = $request->all();
 
-        $id_usuario = Auth::user()->idRol;
 
         $ob = (object)$input;
 
@@ -145,16 +142,6 @@ WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<
             ->select('municipio.idMunicipio','municipio.municipio')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
 
-        $municipio_id = $municipios[0]->idMunicipio;
-
-        $query_osiris = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
-                                                    FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
-                                                    LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
-                                                    INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
-                                                    INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
-                                                    INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
-                                                    WHERE usuario.idRol='$id_usuario'
-                                                    AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         //query
         DB::beginTransaction();
@@ -196,24 +183,26 @@ WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<
     }
 
 
+
     //rechazar reporte
     public function rechazarReporte(Request $request)
     {
+
         $comentario = $request->all()['comentario'];
         $input = $request->all();
-        $id_documeto = $input['respuesta_documento'];
+        $id_documento = $input['respuesta_documento'];
 
         //update documento
+
 
         DB::beginTransaction();
 
         DB::table('dd_documento')
-            ->where('idDocumento',$id_documeto)
+            ->where('idDocumento',$id_documento)
             ->update(['idStatus'=>dd_documento::documento_observaciones,
                       'comentario'=>$comentario
                     ]);
         DB::commit();
-
 
         return redirect('visualizar_reportes_trimestrales');
 
