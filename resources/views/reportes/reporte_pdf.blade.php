@@ -51,11 +51,7 @@
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="8">Municipio: {{ $input['municipio']}} </td>
         <td style="padding:8;">No Ministrado</td>
-<<<<<<< HEAD
         <td style="padding:8; text-align:right;"> {{ $input['monto_no_ministrado'] }}</td>
-=======
-        <td style="padding:8; text-align:right;">{{ $input['monto_no_ministrado'] }}</td>
->>>>>>> 28d17ce7dcb7f869c508b42e589650eb23fd5e22
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="10" align="justify">Subsidio para el fortalecimiento del desempeño en materia de seguridad publica a los municipios y demarcaciones territoriales de la Ciudad de México y, en su caso, a las entidades federativas que ejerzan de manera directa o coordinada la función para el ejercicio fiscal {{$input['anio_fiscal']}} </td>
@@ -117,23 +113,22 @@
         <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
     </tr>
 
-
-
-        
     <tr style='background: #9D2444; color:#ffffff'>
         <td style='text-align:right; padding: 6; '>SUBTOTAL</td>
-        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
-        <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
-        <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ 0.00</td>
-        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
+        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '> </td>
+        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '></td>
+        <td style='text-align:right; padding: 6; '></td>
     </tr>
+
     @endforeach
 
+ 
 
 
 
@@ -149,6 +144,10 @@
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ {{$total}}</td>
     </tr>
+
+
+
+    
 
     <tr>
         <td style="padding: 35; border:none" colspan="5" align="center"><br><br><br>
