@@ -32,11 +32,11 @@ class dd_documentoController extends Controller
             ->leftJoin('municipio','municipio.idMunicipio','=','informetrimestral.idMunicipio')
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
             ->leftJoin('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
-            ->select('dd_documento.idDocumento','estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
+            ->select('dd_documento.idDocumento','estado.estado','municipio.municipio','dd_documento.fecha','cs_status.idStatus','cs_status.status','dd_documento.doc')
             ->whereIn('dd_documento.idTipoDoc',[self::tipo_doc16,self::tipo_doc17,self::tipo_doc18,self::tipo_doc19])
-            ->where('dd_documento.idStatus',10)
+            ->whereIn('dd_documento.idStatus',[dd_documento::documento_aprobado,dd_documento::documento_observaciones,dd_documento::documento_enviado])
+            ->orderBy('dd_documento.fecha','DESC')
             ->paginate(10);
-
 
         return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
     }
@@ -72,6 +72,14 @@ class dd_documentoController extends Controller
                                                WHERE idMunicipio ='$municipio_id'"));
 
 
+$aportado = DB::select(DB::raw("SELECT informetrimestral.aportado as aportado FROM `informetrimestral`
+LEFT JOIN municipio on municipio.idMunicipio=informetrimestral.idMunicipio
+WHERE informetrimestral.idMunicipio='$municipio_id'"));
+
+$noaportado = DB::select(DB::raw("SELECT informetrimestral.noAportado as noaportado FROM `informetrimestral`
+LEFT JOIN municipio on municipio.idMunicipio=informetrimestral.idMunicipio
+WHERE informetrimestral.idMunicipio='$municipio_id'"));
+
 
         return view('carga_reporte')->with([
             'estados'=>$estados,
@@ -81,70 +89,94 @@ class dd_documentoController extends Controller
             'trimestres'=>$trimestres,
             'montoministrado'=>$ministrado[0]->Ministrado,
             'montonoministrado'=> $noministrado[0]->NoMinistrado,
+            'aportado'=> $aportado[0]->aportado,
+            'noaportado'=>$noaportado[0]->noaportado,
             'status' => false
         ]);
     }
 
     public function descargarPdf(Request $request)
     {
-
+        
         $id_municipio = $request->all()['municipio_id'];
 
 
         $input = $request->all();
 
+         $sql = DB::select(DB::raw("SELECT programa.idPrograma, programa.programa, subprograma.subprograma, 
+         FORMAT(IFNULL(rep.SUM,0), 2) as SUM, IFNULL(rep.SUM,0) as SUMA FROM `subprograma`
+         LEFT JOIN 
+             (SELECT programa.idPrograma, bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
+             LEFT JOIN bien on concertacion.idBien=bien.idBien
+             LEFT JOIN programa on bien.idPrograma=programa.idPrograma
+             LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
+             WHERE concertacion.b_estado=1 
+             AND concertacion.idMunicipio= '$id_municipio'
+             AND subprograma.idSubprograma<>13
+             GROUP BY programa.idPrograma, bien.idSubprog) as rep
+         on subprograma.idSubprograma=rep.idSubprog
+         LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
+         WHERE subprograma.idSubprograma<>13
+         ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
 
-//        dd($input['municipio']);
-            $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
-                                                LEFT JOIN 
-                                                    (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
-                                                    LEFT JOIN bien on concertacion.idBien=bien.idBien
-                                                    LEFT JOIN programa on bien.idPrograma=programa.idPrograma
-                                                    LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
-                                                    WHERE concertacion.b_estado=1 AND concertacion.idMunicipio='$id_municipio' 
-                                                    AND subprograma.idSubprograma<>13
-                                                    GROUP BY bien.idPrograma, bien.idSubprog) as rep
-                                                on subprograma.idSubprograma=rep.idSubprog
-                                                LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
-                                                ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+
+        
 
 
-           $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql]);
+
+
+
+
+$SUBTOTAL = DB::select(DB::raw("SELECT programa.idPrograma, programa.programa, 
+FORMAT(IFNULL(rep.SUM,0), 2) as SUM, IFNULL(rep.SUM,0) as SUMA FROM `programa`
+LEFT JOIN 
+    (SELECT programa.idPrograma, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
+    LEFT JOIN bien on concertacion.idBien=bien.idBien
+    LEFT JOIN programa on bien.idPrograma=programa.idPrograma
+    WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=' $id_municipio' AND bien.idSubprog<>13
+    GROUP BY programa.idPrograma,bien.idPrograma) as rep
+on programa.idPrograma=rep.idPrograma
+ORDER BY programa.idPrograma ASC "));
+
+
+
+
+
+
+        $TOTAL = DB::select(DB::raw("SELECT SUM(concertacion.costoTotal) as totalsuma FROM `concertacion` 
+        LEFT JOIN bien on concertacion.idBien=bien.idBien
+        WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<>13"));
+
+
+                                                
+
+
+           $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql,'total'=>$TOTAL[0]->totalsuma,
+           'subtotal'=>$SUBTOTAL[0]->SUMA] );
            $pdf->setPaper('a3','landscape');
         return $pdf->download('formato_trimestral.pdf');
 
-
+                        
 
     }
-
+ 
 
     public function cargaDatos(Request $request)
     {
 
         $input = $request->all();
 
-        $id_usuario = Auth::user()->idRol;
 
         $ob = (object)$input;
-
-        $ruta = $ob->reporte_pdf->store('public/reporte_trimestral');
 
         $municipios = DB::table('usuario_municipio')
             ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
-            ->select('municipio.idMunicipio','municipio.municipio')
+            ->select('municipio.idMunicipio','municipio.municipio','estado.estado')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
 
-        $municipio_id = $municipios[0]->idMunicipio;
+        $ruta = $ob->reporte_pdf->store('public/seguimiento/informe_trimestral_'.$municipios[0]->estado.'_'.$municipios[0]->municipio.'');
 
-        $query_osiris = DB::select(DB::raw("SELECT  ele.monto as montoElegibilidad 
-                                                    FROM usuario LEFT JOIN usuario_municipio on usuario.idUsuario = usuario_municipio.idUsuario 
-                                                    LEFT JOIN usuario_estado on usuario.idUsuario = usuario_estado.idEstado 
-                                                    INNER JOIN municipio mun on mun.idMunicipio = usuario_municipio.idMunicipio 
-                                                    INNER JOIN estado edo on edo.idEstado = mun.idEstado INNER JOIN ministracion min on min.idMunicipio = mun.idMunicipio 
-                                                    INNER JOIN elegibilidad ele on ele.idMunicipio = mun.idMunicipio 
-                                                    WHERE usuario.idRol='$id_usuario'
-                                                    AND usuario_municipio.idMunicipio ='$municipio_id' "));
 
         //query
         DB::beginTransaction();
@@ -173,6 +205,7 @@ class dd_documentoController extends Controller
                 'nombres'=> Auth::user()->nombre,
                 'cargo'=> Auth::user()->cargo,
                 'fecha_carga'=> Carbon::now()
+                
 
             ]);
         DB::commit();
@@ -185,24 +218,26 @@ class dd_documentoController extends Controller
     }
 
 
+
     //rechazar reporte
     public function rechazarReporte(Request $request)
     {
+
         $comentario = $request->all()['comentario'];
         $input = $request->all();
-        $id_documeto = $input['respuesta_documento'];
+        $id_documento = $input['respuesta_documento'];
 
         //update documento
+
 
         DB::beginTransaction();
 
         DB::table('dd_documento')
-            ->where('idDocumento',$id_documeto)
+            ->where('idDocumento',$id_documento)
             ->update(['idStatus'=>dd_documento::documento_observaciones,
                       'comentario'=>$comentario
                     ]);
         DB::commit();
-
 
         return redirect('visualizar_reportes_trimestrales');
 

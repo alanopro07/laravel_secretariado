@@ -17,6 +17,7 @@ a{
     color: grey;
     transition: background .3s ease-in, color .3s ease-in;
     &:hover{
+        color: #0e5b44;
         text-decoration: none;
     }
 }
@@ -31,7 +32,36 @@ a{
     }
 }
 
+// estilo documento con observaciones
+.observaciones{
+    background: #9D2444;
+    color: white;
+    font-size: 16px;
 
+
+}
+
+//estilo documento aprobado
+.Aprobado{
+    background: #0e5b44;
+    color: white;
+    font-size: 16px;
+
+}
+
+//estilo decumento enviado
+.Enviado{
+    background: #e5be01;
+    color: white;
+    font-size: 16px;
+}
+
+
+//estilo disabled
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: grey;
+    border: none;
+}
 
 input:focus, input.form-control:focus {
 

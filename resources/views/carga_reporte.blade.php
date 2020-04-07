@@ -6,9 +6,10 @@
 
     @csrf
     <div class="container ">
-        <div class="row ">
+        <div class="row text-center ">
+        
             <div class="col-md-12 bg-light pt-2">
-                <a href="{{route('pdf')}}" target="_blankw">  <button class="btn btn-primary btn-block"><i class="fa fa-eye" aria-hidden="true"></i> Ver Archivo</button></a>
+                <a target="_blankw">  <button class="btn btn-primary btn-block">Informe Trimestral</button></a>
             </div>
             {{ Form::open(array('url' => 'carga_datos_pdf', 'method' => 'post' , 'accept-charset' =>"UTF-8",'enctype' => 'multipart/form-data'))  }}
 
@@ -42,7 +43,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Informe Trimestral</label>
+                    <label >Informe Trimestral</label>
                     <select class="browser-default custom-select" name="trimestre" id="trimestre" required >
                         <option value="" >Selecciona Informe Trimestral</option>
                         @foreach($trimestres as $trimestre)
@@ -56,7 +57,7 @@
                     <div class="row text-center">
                         <div class="col-md-12">
 
-                            <h3 class=" .invalid-feedback  ">Responsable de la firma de los Informes Trimestrales</h3>
+                            <h1 class=" .invalid-feedback  ">Responsable de la Firma de los Informes Trimestrales</h1>
                         </div>
                         <div class="col-md-12 bg-light">
                             <div class="col-auto">
@@ -65,9 +66,9 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Nombre Completo</div>
                                     </div>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
-                                    <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" placeholder="Primer Apellido" required>
-                                    <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" placeholder="Segundo Apellido" required>
+                                    <input type="text" class="form-control" onkeypress="return soloLetras(event)" maxlength="50" id="nombre" name="nombre" placeholder="Nombre"  required >
+                                    <input type="text" class="form-control" onkeypress="return soloLetras(event)" maxlength="50"id="primer_apellido" name="primer_apellido" placeholder="Primer Apellido" required>
+                                    <input type="text" class="form-control" onkeypress="return soloLetras(event)" maxlength="50" id="segundo_apellido" name="segundo_apellido" placeholder="Segundo Apellido" required>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +79,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Cargo</div>
                                     </div>
-                                    <input type="text" name="cargo" class="form-control" id="cargo" placeholder="Cargo del Responsable">
+                                    <input type="text" name="cargo" class="form-control" id="cargo" onkeypress="return soloLetras(event)" maxlength="30" placeholder="Cargo del Responsable">
                                 </div>
                             </div>
 
@@ -88,14 +89,26 @@
                                     <label class="sr-only" for="inlineFormInputGroup">Montos</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text">Montos ministrado $</div>
+                                            <div class="input-group-text">Ministrado </div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado" value="{{$montoministrado}}"  id="monto_ministrado" placeholder="Monto ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"  id="monto_ministrado" placeholder="Monto ministrado" readonly>
 
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text">Montos no ministrado $</div>
+                                            <div class="input-group-text">No Ministrado</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="{{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado">
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="$ {{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado" readonly>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Aportado </div>
+                                        </div>
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"   id="monto_ministrado" placeholder="Monto Aportado" readonly>
+
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">No Aportado </div>
+                                        </div>
+                                        
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado"   id="monto_no_ministrado" placeholder="Monto no Aportado" readonly>
                                     </div>
                                 </div>
 
@@ -112,8 +125,8 @@
                                     <label class="custom-file-label" for="validatedCustomFile"><i class="fa fa-floppy-o" aria-hidden="true"></i> Adjuntar y Guardar</label>
                                 </div>
                                 <div class="col-md-12 bg-light pt-2">
-                                    <a href="{{url('dashboard')}}" class="btn btn-lg btn-primary"  style="color: white">Regresar</a>
-                                    <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
+                                    
+                                    <button type="submit" class="btn btn-lg btn-primary"><i class="fas fa-save"></i> Adjuntar y Guardar</button>
                                 </div>
 
                                 {{ Form::close() }}

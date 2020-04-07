@@ -10907,6 +10907,7 @@ a:hover {
 }
 
 .a-ginda_link:hover {
+  color: #0e5b44;
   text-decoration: none;
 }
 
@@ -10918,6 +10919,30 @@ a:hover {
 .a-ginda:hover {
   color: #000000;
   text-decoration: none;
+}
+
+.observaciones {
+  background: #9D2444;
+  color: white;
+  font-size: 16px;
+}
+
+.Aprobado {
+  background: #0e5b44;
+  color: white;
+  font-size: 16px;
+}
+
+.Enviado {
+  background: #e5be01;
+  color: white;
+  font-size: 16px;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background-color: grey;
+  border: none;
 }
 
 input:focus,
