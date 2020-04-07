@@ -134,13 +134,13 @@ class dd_documentoController extends Controller
 
         $ob = (object)$input;
 
-        $ruta = $ob->reporte_pdf->store('public/reporte_trimestral');
-
         $municipios = DB::table('usuario_municipio')
             ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
-            ->select('municipio.idMunicipio','municipio.municipio')
+            ->select('municipio.idMunicipio','municipio.municipio','estado.estado')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
+
+        $ruta = $ob->reporte_pdf->store('public/seguimiento/informe_trimestral_'.$municipios[0]->estado.'_'.$municipios[0]->municipio.'');
 
 
         //query
