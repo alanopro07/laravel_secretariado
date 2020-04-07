@@ -89,14 +89,26 @@
                                     <label class="sr-only" for="inlineFormInputGroup">Montos</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text">Montos ministrado $</div>
+                                            <div class="input-group-text">Ministrado </div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado" value="$ {{$montoministrado}}"  id="monto_ministrado" placeholder="Monto ministrado" readonly>
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"  id="monto_ministrado" placeholder="Monto ministrado" readonly>
 
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text">Montos no ministrado $</div>
+                                            <div class="input-group-text">No Ministrado</div>
                                         </div>
                                         <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="$ {{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado" readonly>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Aportado </div>
+                                        </div>
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"   id="monto_ministrado" placeholder="Monto Aportado" readonly>
+
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">No Aportado </div>
+                                        </div>
+                                        
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado"   id="monto_no_ministrado" placeholder="Monto no Aportado" readonly>
                                     </div>
                                 </div>
 
