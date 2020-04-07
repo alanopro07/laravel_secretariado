@@ -32,11 +32,11 @@ class dd_documentoController extends Controller
             ->leftJoin('municipio','municipio.idMunicipio','=','informetrimestral.idMunicipio')
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
             ->leftJoin('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
-            ->select('dd_documento.idDocumento','estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
+            ->select('dd_documento.idDocumento','estado.estado','municipio.municipio','dd_documento.fecha','cs_status.idStatus','cs_status.status','dd_documento.doc')
             ->whereIn('dd_documento.idTipoDoc',[self::tipo_doc16,self::tipo_doc17,self::tipo_doc18,self::tipo_doc19])
-            ->where('dd_documento.idStatus',10)
+            ->whereIn('dd_documento.idStatus',[dd_documento::documento_aprobado,dd_documento::documento_observaciones,dd_documento::documento_enviado])
+            ->orderBy('dd_documento.fecha','DESC')
             ->paginate(10);
-
 
         return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
     }
@@ -108,9 +108,9 @@ class dd_documentoController extends Controller
                                                 ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
 
 
-$TOTAL = DB::select(DB::raw("SELECT SUM(concertacion.costoTotal) as totalsuma FROM `concertacion` 
-LEFT JOIN bien on concertacion.idBien=bien.idBien
-WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<>13"));
+        $TOTAL = DB::select(DB::raw("SELECT SUM(concertacion.costoTotal) as totalsuma FROM `concertacion` 
+        LEFT JOIN bien on concertacion.idBien=bien.idBien
+        WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<>13"));
 
 
 
