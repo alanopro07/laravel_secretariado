@@ -72,6 +72,14 @@ class dd_documentoController extends Controller
                                                WHERE idMunicipio ='$municipio_id'"));
 
 
+$aportado = DB::select(DB::raw("SELECT informetrimestral.aportado as aportado FROM `informetrimestral`
+LEFT JOIN municipio on municipio.idMunicipio=informetrimestral.idMunicipio
+WHERE informetrimestral.idMunicipio='$municipio_id'"));
+
+$noaportado = DB::select(DB::raw("SELECT informetrimestral.noAportado as noaportado FROM `informetrimestral`
+LEFT JOIN municipio on municipio.idMunicipio=informetrimestral.idMunicipio
+WHERE informetrimestral.idMunicipio='$municipio_id'"));
+
 
         return view('carga_reporte')->with([
             'estados'=>$estados,
@@ -81,6 +89,8 @@ class dd_documentoController extends Controller
             'trimestres'=>$trimestres,
             'montoministrado'=>$ministrado[0]->Ministrado,
             'montonoministrado'=> $noministrado[0]->NoMinistrado,
+            'aportado'=> $aportado[0]->aportado,
+            'noaportado'=>$noaportado[0]->noaportado,
             'status' => false
         ]);
     }
@@ -93,19 +103,44 @@ class dd_documentoController extends Controller
 
         $input = $request->all();
 
-         $sql = DB::select(DB::raw("SELECT programa.programa, subprograma.subprograma, FORMAT(IFNULL(rep.SUM,0), 2) as SUM FROM `subprograma`
-                                                LEFT JOIN 
-                                                    (SELECT bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
-                                                    LEFT JOIN bien on concertacion.idBien=bien.idBien
-                                                    LEFT JOIN programa on bien.idPrograma=programa.idPrograma
-                                                    LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
-                                                    WHERE concertacion.b_estado=1 AND concertacion.idMunicipio='$id_municipio' 
-                                                    AND subprograma.idSubprograma<>13
-                                                    GROUP BY bien.idPrograma, bien.idSubprog) as rep
-                                                on subprograma.idSubprograma=rep.idSubprog
-                                                LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
-             
-                                                ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+         $sql = DB::select(DB::raw("SELECT programa.idPrograma, programa.programa, subprograma.subprograma, 
+         FORMAT(IFNULL(rep.SUM,0), 2) as SUM, IFNULL(rep.SUM,0) as SUMA FROM `subprograma`
+         LEFT JOIN 
+             (SELECT programa.idPrograma, bien.idSubprog, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
+             LEFT JOIN bien on concertacion.idBien=bien.idBien
+             LEFT JOIN programa on bien.idPrograma=programa.idPrograma
+             LEFT JOIN subprograma on bien.idSubprog=subprograma.idSubprograma
+             WHERE concertacion.b_estado=1 
+             AND concertacion.idMunicipio= '$id_municipio'
+             AND subprograma.idSubprograma<>13
+             GROUP BY programa.idPrograma, bien.idSubprog) as rep
+         on subprograma.idSubprograma=rep.idSubprog
+         LEFT JOIN programa on subprograma.idPrograma=programa.idPrograma
+         WHERE subprograma.idSubprograma<>13
+         ORDER BY subprograma.idPrograma ASC, subprograma.numSubprograma ASC"));
+
+
+        
+
+
+
+
+
+
+$SUBTOTAL = DB::select(DB::raw("SELECT programa.idPrograma, programa.programa, 
+FORMAT(IFNULL(rep.SUM,0), 2) as SUM, IFNULL(rep.SUM,0) as SUMA FROM `programa`
+LEFT JOIN 
+    (SELECT programa.idPrograma, SUM(concertacion.costoTotal) as SUM FROM `concertacion` 
+    LEFT JOIN bien on concertacion.idBien=bien.idBien
+    LEFT JOIN programa on bien.idPrograma=programa.idPrograma
+    WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=' $id_municipio' AND bien.idSubprog<>13
+    GROUP BY programa.idPrograma,bien.idPrograma) as rep
+on programa.idPrograma=rep.idPrograma
+ORDER BY programa.idPrograma ASC "));
+
+
+
+
 
 
         $TOTAL = DB::select(DB::raw("SELECT SUM(concertacion.costoTotal) as totalsuma FROM `concertacion` 
@@ -113,15 +148,15 @@ class dd_documentoController extends Controller
         WHERE concertacion.b_estado=1 AND concertacion.idMunicipio=3 AND bien.idSubprog<>13"));
 
 
-
                                                 
 
 
-           $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql,'total'=>$TOTAL[0]->totalsuma] );
+           $pdf = PDF::loadView('reportes.reporte_pdf',['input'=>$input,'datos'=>$sql,'total'=>$TOTAL[0]->totalsuma,
+           'subtotal'=>$SUBTOTAL[0]->SUMA] );
            $pdf->setPaper('a3','landscape');
         return $pdf->download('formato_trimestral.pdf');
 
-
+                        
 
     }
  
