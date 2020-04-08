@@ -72,16 +72,6 @@ class dd_documentoController extends Controller
                 $noministrado = DB::select(DB::raw("SELECT  monto*.20 as NoMinistrado  FROM `elegibilidad` 
                                                WHERE idMunicipio ='$municipio_id'"));
 
-
-                $aportado = DB::select(DB::raw("SELECT informetrimestral.aportado as aportado FROM `informetrimestral`
-                LEFT JOIN municipio on municipio.idMunicipio=informetrimestral.idMunicipio
-                WHERE informetrimestral.idMunicipio='$municipio_id'"));
-
-
-                    $noaportado = DB::select(DB::raw("SELECT informetrimestral.noAportado as noaportado FROM `informetrimestral`
-                    LEFT JOIN municipio on municipio.idMunicipio=informetrimestral.idMunicipio
-                    WHERE informetrimestral.idMunicipio='$municipio_id'"));
-
                      $Todoministrado = DB::select(DB::raw("SELECT monto as MontoTotalElegibidlida  FROM elegibilidad 
                       WHERE idMunicipio='$municipio_id'"));
                                
@@ -96,10 +86,8 @@ class dd_documentoController extends Controller
             'trimestres'=>$trimestres,
             'montoministrado'=>$ministrado[0]->Ministrado,
             'montonoministrado'=> $noministrado[0]->NoMinistrado,
-           'noaportado'=>$noaportado[0]->noaportado,
-           'aportado'=>$aportado[0]->aportado,
+           
            'Todoministrado'=>$Todoministrado[0]->MontoTotalElegibidlida,
-
             'status' => false
         ]);
     }
@@ -170,6 +158,7 @@ class dd_documentoController extends Controller
     {
 
         $input = $request->all();
+        
 
 
         $ob = (object)$input;

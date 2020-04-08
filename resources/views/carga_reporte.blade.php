@@ -115,14 +115,14 @@
                                         <select  class="browser-default custom-select" name="monto_aportado" id="monto_aportado">
                                         <option  selected  >Seleccionar Monto Aportado</option> 
                                           <option  value="0"  >$ 0</option> 
-                                          <option value="{{$aportado}}" >$ {{$aportado}}</option>
+                                          <option value="{{$montonoministrado}}" >$ {{$montonoministrado}}</option>
                                          </select>
 
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">No Aportado </div>
                                         </div>
                                         
-                                        <input type="text" class="browser-default form-control" name="noaportado" id="noaportado" placeholder="Monto no Aportado" readonly>
+                                        <input type="text" class="browser-default form-control"  name="noaportado" id="noaportado" placeholder="Monto no Aportado" readonly>
                                     </div>
                                 </div>
 
@@ -171,7 +171,7 @@
                                             $("#monto_no_ministrado").val("$ " + operacion.toFixed(2));
                                         }
                                 })
-                                const aportado = @json($aportado);
+                                const aportado = @json($montoministrado);
                                 $("#monto_aportado").change(function(){
                                     var montoAportado = $("#monto_aportado").val();
                                     if (montoAportado == "Seleccionar Monto Aportado" ){
