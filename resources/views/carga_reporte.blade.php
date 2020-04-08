@@ -5,6 +5,7 @@
 
 
     @csrf
+    <script src="aminlte/plugins/jquery/jquery.min.js"> </script>
     <div class="container ">
         <div class="row text-center ">
         
@@ -93,7 +94,7 @@
                                         </div>
 
                                      
-                                        <select  class="browser-default custom-select" name="Monto_ministrado" id=selectmo onchange="selectmo ();">
+                                        <select  class="browser-default custom-select" name="Monto_ministrado" id="Monto_ministrado"  >
                                         <option  value="" selected  >Seleccionar Monto Ministrado</option> 
                                           <option  value="0"  >$ 0</option> 
                                           <option value="{{$montoministrado}}" >$ {{$montoministrado}}</option>
@@ -148,21 +149,16 @@
 
 @endsection
 @include('sweetalert::alert')
-<script src= >"aminlte/plugins/jquery/jquery.min.js" </script>
+
                                         <script type="text/javascript">
                                         
-                                            const  Todoministrado = @ json($Todoministrado);
+                                            const  Todoministrado = @json($Todoministrado);
                                             const montonoministrado= @json($montoministrado);
 
-                                            $(document).ready(function()
-                                            {
-
-                                            $('select[name=Monto_ministrado]').change(function(){
-                                                alert ($('select[name=Monto_ministrado]').val());
-                                            if("select([name=Monto_ministrado]") = 0) {
-                                                $('input[name=monto_no_ministrado]').val();
-                                            }
-                                        }
+                                            $(document).ready(function() {
+                                                $('#Monto_ministrado').change(function(){
+                                                alert ("berenjena");
+                                                });
                                             });
                                            
                                         </script>
