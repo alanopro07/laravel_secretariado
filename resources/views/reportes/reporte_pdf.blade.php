@@ -46,7 +46,7 @@
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;"  colspan="8">Entidad Federativa: {{ $input['estado'] }}</td>
         <td style="padding:8; ">Ministrado </td>
-        <td style="padding:8; text-align:right;">  {{ $input['monto_ministrado'] }} </td>
+        <td style="padding:8; text-align:right;">  {{ $input['Monto_ministrado'] }} </td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="8">Municipio: {{ $input['municipio']}} </td>
