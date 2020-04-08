@@ -92,9 +92,16 @@
                                             <div class="input-group-text">Ministrado </div>
                                         </div>
 
-                                        
+                                        <script type="text/javascript">
+                                        function selectmo(){
+                                            const Monto ministrado = {!! json_encode(0) !!};
+                                            const Monto ministrado = {!! json_encode($montoministrado) !!};
+
+                                        }
+                                        </script>
+
                                      
-                                        <select  class="browser-default custom-select"name="Monto ministrado">
+                                        <select  class="browser-default custom-select" name="Monto ministrado" id=selectmo onchange="selectmo ();">
                                         <option  value="" selected  >Seleccionar Monto Ministrado</option> 
                                           <option  value="0"  >$ 0</option> 
                                           <option value="{{$montoministrado}}" >$ {{$montoministrado}}</option>
