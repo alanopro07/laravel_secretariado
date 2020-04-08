@@ -91,7 +91,15 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Ministrado </div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"  id="monto_ministrado" placeholder="Monto ministrado" readonly>
+
+                                        
+                                     
+                                        <select  class="browser-default custom-select"name="Monto ministrado">
+                                        <option  value="" selected  >Seleccionar Monto Ministrado</option> 
+                                          <option  value="0"  >$ 0</option> 
+                                          <option value="{{$montoministrado}}" >$ {{$montoministrado}}</option>
+                                         </select>
+                                      
 
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">No Ministrado</div>
@@ -102,13 +110,17 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Aportado </div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_ministrado"   id="monto_ministrado" placeholder="Monto Aportado" readonly>
+                                        <select  class="browser-default custom-select"name="Monto aportado">
+                                        <option  value="" selected  >Seleccionar Monto Ministrado</option> 
+                                          <option  value="0"  >$ 0</option> 
+                                          <option value="{{$aportado}}" >$ {{$aportado}}</option>
+                                         </select>
 
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">No Aportado </div>
                                         </div>
                                         
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado"   id="monto_no_ministrado" placeholder="Monto no Aportado" readonly>
+                                        <input type="text" class="browser-default custom-select number_moneda"  name="noaportado"   value="$ {{$noaportado}}"   id="noaportado" placeholder="Monto no Aportado" readonly>
                                     </div>
                                 </div>
 
