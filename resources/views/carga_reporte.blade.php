@@ -5,7 +5,7 @@
 
 
     @csrf
-    <script src="aminlte/plugins/jquery/jquery.min.js"> </script>
+   
     <div class="container ">
         <div class="row text-center ">
         
@@ -95,7 +95,7 @@
 
                                      
                                         <select  class="browser-default custom-select" name="Monto_ministrado" id="Monto_ministrado"  >
-                                        <option  value="" selected  >Seleccionar Monto Ministrado</option> 
+                                        <option selected>Seleccionar Monto Ministrado</option> 
                                           <option  value="0"  >$ 0</option> 
                                           <option value="{{$montoministrado}}" >$ {{$montoministrado}}</option>
                                          </select>
@@ -104,7 +104,7 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">No Ministrado</div>
                                         </div>
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="$ {{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado" readonly>
+                                        <input type="text" class="browser-default form-control"  name="monto_no_ministrado" id="monto_no_ministrado" placeholder="Monto no ministrado" readonly>
                                     </div>
                                     
 
@@ -112,8 +112,8 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Aportado </div>
                                         </div>
-                                        <select  class="browser-default custom-select"name="Monto aportado">
-                                        <option  value="" selected  >Seleccionar Monto Ministrado</option> 
+                                        <select  class="browser-default custom-select" name="monto_aportado" id="monto_aportado">
+                                        <option  selected  >Seleccionar Monto Aportado</option> 
                                           <option  value="0"  >$ 0</option> 
                                           <option value="{{$aportado}}" >$ {{$aportado}}</option>
                                          </select>
@@ -122,7 +122,7 @@
                                             <div class="input-group-text">No Aportado </div>
                                         </div>
                                         
-                                        <input type="text" class="browser-default custom-select number_moneda"  name="noaportado"   value="$ {{$noaportado}}"   id="noaportado" placeholder="Monto no Aportado" readonly>
+                                        <input type="text" class="browser-default form-control" name="noaportado" id="noaportado" placeholder="Monto no Aportado" readonly>
                                     </div>
                                 </div>
 
@@ -150,15 +150,42 @@
 @endsection
 @include('sweetalert::alert')
 
-                                        <script type="text/javascript">
-                                        
-                                            const  Todoministrado = @json($Todoministrado);
-                                            const montonoministrado= @json($montoministrado);
+                                                <!-- jQuery -->
+                                                <script src="adminlte/plugins/jquery/jquery.min.js"></script>
 
-                                            $(document).ready(function() {
-                                                $('#Monto_ministrado').change(function(){
-                                                alert ("berenjena");
-                                                });
-                                            });
-                                           
-                                        </script>
+                            <script type="text/javascript">
+                                const Todoministrado = @json($Todoministrado);
+                               
+                                const montoministrado = @json($montoministrado);
+
+                                $(document).ready(function()
+                                {
+                                    $("select[name=Monto_ministrado]").change(function(){
+
+                                    // tomamos el último option
+                                       var montoMinistrado = $("select[name=Monto_ministrado").val();
+                                        if (montoMinistrado == "Seleccionar Monto Ministrado"){
+                                            $("#monto_no_ministrado").val("Selecciona un monto");
+                                        } else{
+                                            var operacion = parseFloat(Todoministrado) - parseFloat(montoMinistrado);
+                                            $("#monto_no_ministrado").val("$ " + operacion.toFixed(2));
+                                        }
+                                })
+                                const aportado = @json($aportado);
+                                $("#monto_aportado").change(function(){
+                                    var montoAportado = $("#monto_aportado").val();
+                                    if (montoAportado == "Seleccionar Monto Aportado" ){
+                                        $("#noaportado").val("Selecciona un monto");
+                                    }else{
+                                        var veintePorciento = (parseFloat(Todoministrado) * 20) / 100;
+                                        var operacion1 = veintePorciento - montoAportado;
+                                        $("#noaportado").val("$ " + operacion1.toFixed(2));
+
+                                    }
+
+                                })
+
+                                });
+
+                            </script>
+                            
