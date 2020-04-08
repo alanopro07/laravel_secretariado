@@ -67,10 +67,14 @@ class dd_documentoController extends Controller
 
                 $ministrado = DB::select(DB::raw(" SELECT monto*.8 as Ministrado  FROM elegibilidad 
                                                 WHERE idMunicipio='$municipio_id'"));
+                                                
 
 
                 $noministrado = DB::select(DB::raw("SELECT  monto*.20 as NoMinistrado  FROM `elegibilidad` 
                                                WHERE idMunicipio ='$municipio_id'"));
+
+
+                  
 
                      $Todoministrado = DB::select(DB::raw("SELECT monto as MontoTotalElegibidlida  FROM elegibilidad 
                       WHERE idMunicipio='$municipio_id'"));
