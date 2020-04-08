@@ -92,16 +92,8 @@
                                             <div class="input-group-text">Ministrado </div>
                                         </div>
 
-                                        <script type="text/javascript">
-                                        function selectmo(){
-                                            const Monto ministrado = {!! json_encode(0) !!};
-                                            const Monto ministrado = {!! json_encode($montoministrado) !!};
-
-                                        }
-                                        </script>
-
                                      
-                                        <select  class="browser-default custom-select" name="Monto ministrado" id=selectmo onchange="selectmo ();">
+                                        <select  class="browser-default custom-select" name="Monto_ministrado" id=selectmo onchange="selectmo ();">
                                         <option  value="" selected  >Seleccionar Monto Ministrado</option> 
                                           <option  value="0"  >$ 0</option> 
                                           <option value="{{$montoministrado}}" >$ {{$montoministrado}}</option>
@@ -113,6 +105,8 @@
                                         </div>
                                         <input type="text" class="browser-default custom-select number_moneda"  name="monto_no_ministrado" value="$ {{$montonoministrado}}"  id="monto_no_ministrado" placeholder="Monto no ministrado" readonly>
                                     </div>
+                                    
+
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Aportado </div>
@@ -154,3 +148,21 @@
 
 @endsection
 @include('sweetalert::alert')
+<script src= >"aminlte/plugins/jquery/jquery.min.js" </script>
+                                        <script type="text/javascript">
+                                        
+                                            const  Todoministrado = @ json($Todoministrado);
+                                            const montonoministrado= @json($montoministrado);
+
+                                            $(document).ready(function()
+                                            {
+
+                                            $('select[name=Monto_ministrado]').change(function(){
+                                                alert ($('select[name=Monto_ministrado]').val());
+                                            if("select([name=Monto_ministrado]") = 0) {
+                                                $('input[name=monto_no_ministrado]').val();
+                                            }
+                                        }
+                                            });
+                                           
+                                        </script>

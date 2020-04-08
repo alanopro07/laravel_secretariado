@@ -32,11 +32,11 @@ class dd_documentoController extends Controller
             ->leftJoin('municipio','municipio.idMunicipio','=','informetrimestral.idMunicipio')
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
             ->leftJoin('cs_status','cs_status.idStatus','=','dd_documento.idStatus')
-            ->select('dd_documento.idDocumento','estado.estado','municipio.municipio','cs_status.status','dd_documento.doc')
+            ->select('dd_documento.idDocumento','estado.estado','municipio.municipio','dd_documento.fecha','cs_status.idStatus','cs_status.status','dd_documento.doc')
             ->whereIn('dd_documento.idTipoDoc',[self::tipo_doc16,self::tipo_doc17,self::tipo_doc18,self::tipo_doc19])
-            ->where('dd_documento.idStatus',10)
+            ->whereIn('dd_documento.idStatus',[dd_documento::documento_aprobado,dd_documento::documento_observaciones,dd_documento::documento_enviado])
+            ->orderBy('dd_documento.fecha','DESC')
             ->paginate(10);
-
 
         return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
     }
@@ -174,13 +174,13 @@ class dd_documentoController extends Controller
 
         $ob = (object)$input;
 
-        $ruta = $ob->reporte_pdf->store('public/reporte_trimestral');
-
         $municipios = DB::table('usuario_municipio')
             ->leftJoin('municipio','municipio.idMunicipio','=','usuario_municipio.idMunicipio')
             ->leftJoin('estado','estado.idEstado','=','municipio.idEstado')
-            ->select('municipio.idMunicipio','municipio.municipio')
+            ->select('municipio.idMunicipio','municipio.municipio','estado.estado')
             ->where('usuario_municipio.idUsuario',Auth::user()->idUsuario)->get()->toArray();
+
+        $ruta = $ob->reporte_pdf->store('public/seguimiento/informe_trimestral_'.$municipios[0]->estado.'_'.$municipios[0]->municipio.'');
 
 
         //query

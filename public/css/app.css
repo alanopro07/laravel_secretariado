@@ -10921,6 +10921,30 @@ a:hover {
   text-decoration: none;
 }
 
+.observaciones {
+  background: #9D2444;
+  color: white;
+  font-size: 16px;
+}
+
+.Aprobado {
+  background: #0e5b44;
+  color: white;
+  font-size: 16px;
+}
+
+.Enviado {
+  background: #e5be01;
+  color: white;
+  font-size: 16px;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background-color: grey;
+  border: none;
+}
+
 input:focus,
 input.form-control:focus {
   outline: none !important;
