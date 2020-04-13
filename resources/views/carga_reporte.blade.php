@@ -93,10 +93,10 @@
                                             <div class="input-group-text">Ministrado </div>
                                         </div>
 
-                                     
+                                      
                                         <select  class="browser-default custom-select" name="Monto_ministrado" id="Monto_ministrado"  >
                                         <option selected>Seleccionar Monto Ministrado</option> 
-                                          <option  value="0"  >$ 0</option> 
+                                          <option value="0"  >$ 0</option> 
                                           <option value="{{$montoministrado}}" >$ {{$montoministrado}}</option>
                                          </select>
                                       
@@ -164,22 +164,25 @@
 
                                     // tomamos el último option
                                        var montoMinistrado = $("select[name=Monto_ministrado").val();
+                                       var enteros = montoMinistrado.replace(/[,]/gi,"");
+                                       
                                         if (montoMinistrado == "Seleccionar Monto Ministrado"){
                                             $("#monto_no_ministrado").val("Selecciona un monto");
                                         } else{
-                                            var operacion = parseFloat(Todoministrado) - parseFloat(montoMinistrado);
-                                            $("#monto_no_ministrado").val("$ " + operacion.toFixed(2));
+                                            var operacion = parseFloat(Todoministrado) - parseFloat(enteros);
+                                            $("#monto_no_ministrado").val("$ " + number_format(operacion, 2));
                                         }
                                 })
                                 const aportado = @json($montoministrado);
                                 $("#monto_aportado").change(function(){
                                     var montoAportado = $("#monto_aportado").val();
+                                    var enteros1 = montoAportado.replace(/[,]/gi,"");
                                     if (montoAportado == "Seleccionar Monto Aportado" ){
                                         $("#noaportado").val("Selecciona un monto");
                                     }else{
                                         var veintePorciento = (parseFloat(Todoministrado) * 20) / 100;
-                                        var operacion1 = veintePorciento - montoAportado;
-                                        $("#noaportado").val("$ " + operacion1.toFixed(2));
+                                        var operacion1 = veintePorciento - enteros1;
+                                        $("#noaportado").val("$ " + number_format(operacion1, 2));
 
                                     }
 
@@ -187,5 +190,30 @@
 
                                 });
 
+                                    // dato de prueba
+
+                                    // formatear numeros
+                                    function number_format(amount, decimals) {
+
+                                        amount += ''; // por si pasan un numero en vez de un string
+                                        amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+
+                                        decimals = decimals || 0; // por si la variable no fue fue pasada
+
+                                        // si no es un numero o es igual a cero retorno el mismo cero
+                                        if (isNaN(amount) || amount === 0) 
+                                            return parseFloat(0).toFixed(decimals);
+
+                                        // si es mayor o menor que cero retorno el valor formateado como numero
+                                        amount = '' + amount.toFixed(decimals);
+
+                                        var amount_parts = amount.split('.'),
+                                            regexp = /(\d+)(\d{3})/;
+
+                                        while (regexp.test(amount_parts[0]))
+                                            amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+
+                                        return amount_parts.join('.');
+                                    }
                             </script>
                             

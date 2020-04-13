@@ -95,6 +95,8 @@
 
 
 
+        
+
 
 
 {{--        {{dd($dato)}}--}}
@@ -113,22 +115,31 @@
         <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
     </tr>
 
-    <tr style='background: #9D2444; color:#ffffff'>
-        <td style='text-align:right; padding: 6; '>SUBTOTAL</td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '> </td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-        <td style='text-align:right; padding: 6; '></td>
-    </tr>
 
+  
     @endforeach
+  
+
+  
+
+    @foreach($subtotal as $sub)
+        
+        <tr style='background: #9D2444; color:#ffffff'>
+<td style='text-align:right; padding: 6; '>SUBTOTAL</td>
+<td style='text-align:right; padding: 6; '> {{$sub->SUMA}}</td>
+<td style='text-align:right; padding: 6; '></td>
+<td style='text-align:right; padding: 6; '></td>
+<td style='text-align:right; padding: 6; '> </td>
+<td style='text-align:right; padding: 6; '></td>
+<td style='text-align:right; padding: 6; '></td>
+<td style='text-align:right; padding: 6; '></td>
+<td style='text-align:right; padding: 6; '></td>
+<td style='text-align:right; padding: 6; '></td>
+</tr>
+{{--        {{dd($sub)}}--}}
 
  
+@endforeach
 
 
 
@@ -144,29 +155,51 @@
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ {{$total}}</td>
     </tr>
-
-
-
+<!--INICIO DE TABLA RENDIMIENTO-->
+<tr>
+        <td style="padding: 5; border:none" colspan="10" align="center"><b></b> </td>
+    </tr>
+   
+    </tr>
+    <tr style='background: #621132; color:#ffffff;'>
+        <td style='text-align:center;padding:8;' colspan='10' align='center'>RENDIMIENTOS </td>
+    </tr>
+    <tr style='background: #9D2444; color:#ffffff'>
+        <td style='text-align:center; padding: 6;' colspan='4'>CONCEPTO</td>
+        <td style='text-align:center; padding: 6;' colspan='3'>FEDERAL</td>
+        <td style='text-align:center; padding: 6;' colspan='3'>MUNICIPAL</td>
+</tr>
     
+<tr>
+        <td style='text-align:left; padding: 6;'colspan='4'>Rendimientos Totales</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+       
+    </tr>
+    <tr>
+        <td style='text-align:left; padding: 6;'colspan='4'>Rendimientos Disponibles</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+       
+    </tr>
+    <!--FIN DE TABLA RENDIMIENTO-->
 
     <tr>
+    <td style="padding: 35; border:none" colspan="5" align="cen2020ter"><br><br><br>
+            __________________________________________ <br><br>
+            C. {{ $input['municipio']}} , {{ $input['estado'] }}</td>
         <td style="padding: 35; border:none" colspan="5" align="center"><br><br><br>
             __________________________________________ <br><br>
            <span style="margin-left: 20px;text-transform: uppercase;">  C. {{$input['nombre']}} {{$input['primer_apellido']}} {{$input['segundo_apellido']}}</span> <br>
-           <span style="margin-left: 20px;text-transform: uppercase;"> {{$input['cargo']}} de {{ $input['municipio']}} , {{ $input['estado'] }} </span>
+           <span style="margin-left: 20px;text-transform: uppercase;"> {{$input['cargo']}}  </span>
 
-        </td>
-        <td style="padding: 35; border:none" colspan="5" align="cen2020ter"><br><br><br>
-            __________________________________________ <br><br>
-            C. MERCEDES DE JESÚS CORNEJO GARCIA <br> ENLACE FORTASEG</td>
     </tr>
     <!--Fin firmas-->
+    <!--Coparticipacion-->
 </table>
 
 
 </body>
-<!--NUEVA PAGINA-->
-<body style="background-color: white;">
 
 <table align='center' border='1' cellpadding='0' cellspacing='0'>
     <colgroup>
@@ -188,23 +221,23 @@
         <th style=' padding: 6;' colspan="5" style='text-align:center;'> <b>
                 Secretariado Ejecutivo del Sistema Nacional de Seguridad Publica <br>
                 INFORME DE CUMPLIMIENTO AL PRIMER TRIMESTRE <br>
-                FORTASEG ()</b></th>
+                FORTASEG ({{$input['trimestre']}})</b></th>
         <th style=' padding: 6;' colspan="3" style='text-align:center;'><img src="data:image/jpeg;base64,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
 " ></th>
     </tr>
     </thead>
     <tr style="background: #621132; color:#ffffff">
-        <td style="padding:8;"  colspan="8">Entidad Federativa: </td>
-        <td style="padding:8; ">Aportado </td>
-        <td style="padding:8; text-align:right;">   </td>
+        <td style="padding:8;"  colspan="8">Entidad Federativa: {{ $input['estado'] }}</td>
+        <td style="padding:8; ">Aportado:</td>
+        <td style="padding:8; text-align:right;">  {{ $input['monto_aportado']}} </td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
-        <td style="padding:8;" colspan="8">Municipio: </td>
+        <td style="padding:8;" colspan="8">Municipio: {{ $input['municipio']}} </td>
         <td style="padding:8;">No Aportado</td>
-        <td style="padding:8; text-align:right;"> </td>
+        <td style="padding:8; text-align:right;">{{ $input['noaportado']}} </td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
-        <td style="padding:8;" colspan="10" align="justify">Subsidio para el fortalecimiento del desempeño en materia de seguridad publica a los municipios y demarcaciones territoriales de la Ciudad de México y, en su caso, a las entidades federativas que ejerzan de manera directa o coordinada la función para el ejercicio fiscal  </td>
+        <td style="padding:8;" colspan="10" align="justify">Subsidio para el fortalecimiento del desempeño en materia de seguridad publica a los municipios y demarcaciones territoriales de la Ciudad de México y, en su caso, a las entidades federativas que ejerzan de manera directa o coordinada la función para el ejercicio fiscal {{$input['anio_fiscal']}} </td>
     </tr>
     <tr  style="background: #9D2444; color:#ffffff">
         <td rowspan="2" style='text-align:left; padding: 6; '>COPARTICIPACION</td>
@@ -232,83 +265,94 @@
     </tr>
 
     <tr>
-        <td colspan="10" align="center"><b>REPORTE DE AVANCE DE MONTOS CON RECURSO COPARTICIPACIONFEDERALES FORTASEG</b> </td>
+        <td colspan="10" align="center"><b>REPORTE DE AVANCE DE MONTOS CON RECURSO FEDERALES FORTASEG</b> </td>
     </tr>
 
     <!--INICIO DEL CICLO-->
-   
+    @foreach($valores as $valor)
     <tr style='background: #621132; color:#ffffff;'>
         <td style='padding:8;' colspan='10' align='justify'>
-           
+            {{$valor->programa}}
         </td>
     </tr>
-
-
-
-
-
-
-
-
+          {{--        {{dd($valor)}}--}}
     <tr>
-        <td style='text-align:left; padding: 6; width:120px;'></td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$</td>
-        <td style='text-align:right; padding: 6; '>$</td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$</td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
+        <td style='text-align:left; padding: 6; width:120px;'>{{$valor->subprograma}}</td>
+        <td style='text-align:right; padding: 6; '>$ {{$valor->SUM}} </td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$  {{$valor->SUM}} </td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$  {{$valor->SUM}} </td>
     </tr>
+   
 
-
-
-
-
-    
-    <tr style='background: #9D2444; color:#ffffff'>
-        <td style='text-align:right; padding: 6; '>SUBTOTAL</td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$</td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-    </tr>
-
+  
+  
+        
+  
 
     <tr style='background: #621132; color:#ffffff'>
         <td style='text-align:right; padding: 6; '>TOTAL</td>
-        <td style='text-align:right; padding: 6; '> $  </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$ </td>
-        <td style='text-align:right; padding: 6; '>$</td>
-        <td style='text-align:right; padding: 6; '>$</td>
+        <td style='text-align:right; padding: 6; '> $ {{$valor->SUM}} </td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ {{$valor->SUM}} </td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ 0.00</td>
+        <td style='text-align:right; padding: 6; '>$ {{$valor->SUM}}</td>
     </tr>
+    @endforeach
+ <!--INICIO DE TABLA RENDIMIENTO-->
+    <tr>
+        <td style="padding: 5; border:none" colspan="10" align="center"><b></b> </td>
+    </tr>
+   
+    </tr>
+    <tr style='background: #621132; color:#ffffff;'>
+        <td style='text-align:center;padding:8;' colspan='10' align='center'>RENDIMIENTOS </td>
+    </tr>
+    <tr style='background: #9D2444; color:#ffffff'>
+        <td style='text-align:center; padding: 6;' colspan='4'>CONCEPTO</td>
+        <td style='text-align:center; padding: 6;' colspan='3'>FEDERAL</td>
+        <td style='text-align:center; padding: 6;' colspan='3'>MUNICIPAL</td>
+</tr>
+    
+<tr>
+        <td style='text-align:left; padding: 6;'colspan='4'>Rendimientos Totales</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+       
+    </tr>
+    <tr>
+        <td style='text-align:left; padding: 6;'colspan='4'>Rendimientos Disponibles</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+        <td style='text-align:right; padding: 6;'colspan='3'>$ 0.00</td>
+       
+    </tr>
+    <!--FIN DE TABLA RENDIMIENTO-->
 
     <tr>
+    <td style="padding: 35; border:none" colspan="5" align="cen2020ter"><br><br><br>
+            __________________________________________ <br><br>
+            C. {{ $input['municipio']}} , {{ $input['estado'] }}</td>
         <td style="padding: 35; border:none" colspan="5" align="center"><br><br><br>
             __________________________________________ <br><br>
-           <span style="margin-left: 20px;text-transform: uppercase;">  C.</span> <br>
-           <span style="margin-left: 20px;text-transform: uppercase;">  </span>
+           <span style="margin-left: 20px;text-transform: uppercase;">  C. {{$input['nombre']}} {{$input['primer_apellido']}} {{$input['segundo_apellido']}}</span> <br>
+           <span style="margin-left: 20px;text-transform: uppercase;"> {{$input['cargo']}}  </span>
 
         </td>
-        <td style="padding: 35; border:none" colspan="5" align="cen2020ter"><br><br><br>
-            __________________________________________ <br><br>
-            C. MERCEDES DE JESÚS CORNEJO GARCIA <br> ENLACE FORTASEG</td>
+    
     </tr>
     <!--Fin firmas-->
 </table>
 
 
-</body>
+
+<!--NUEVA PAGINA-->
 
