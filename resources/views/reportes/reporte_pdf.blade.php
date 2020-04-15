@@ -46,7 +46,7 @@
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;"  colspan="8">Entidad Federativa: {{ $input['estado'] }}</td>
         <td style="padding:8; ">Ministrado </td>
-        <td style="padding:8; text-align:right;">  {{ $input['Monto_ministrado'] }} </td>
+        <td style="padding:8; text-align:right;"> $ {{ $input['Monto_ministrado'] }} </td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="8">Municipio: {{ $input['municipio']}} </td>
@@ -100,11 +100,12 @@
 
 
 {{--        {{dd($dato)}}--}}
-
+@endforeach
+@foreach($subtotal as $sub)
 
     <tr>
-        <td style='text-align:left; padding: 6; width:120px;'>{{$dato->subprograma}}</td>
-        <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
+        <td style='text-align:left; padding: 6; width:120px;'></td>
+        <td style='text-align:right; padding: 6; '>$ </td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ 0.00</td>
         <td style='text-align:right; padding: 6; '>$ {{$dato->SUM}}</td>
@@ -117,12 +118,12 @@
 
 
   
-    @endforeach
+  
   
 
   
 
-    @foreach($subtotal as $sub)
+   
         
         <tr style='background: #9D2444; color:#ffffff'>
 <td style='text-align:right; padding: 6; '>SUBTOTAL</td>
@@ -140,6 +141,9 @@
 
  
 @endforeach
+
+
+
 
 
 
@@ -229,7 +233,7 @@
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;"  colspan="8">Entidad Federativa: {{ $input['estado'] }}</td>
         <td style="padding:8; ">Aportado:</td>
-        <td style="padding:8; text-align:right;">  {{ $input['monto_aportado']}} </td>
+        <td style="padding:8; text-align:right;"> $ {{ $input['monto_aportado']}} </td>
     </tr>
     <tr style="background: #621132; color:#ffffff">
         <td style="padding:8;" colspan="8">Municipio: {{ $input['municipio']}} </td>

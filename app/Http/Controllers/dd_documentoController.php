@@ -37,6 +37,7 @@ class dd_documentoController extends Controller
             ->whereIn('dd_documento.idStatus',[dd_documento::documento_aprobado,dd_documento::documento_observaciones,dd_documento::documento_enviado])
             ->orderBy('dd_documento.fecha','DESC')
             ->paginate(10);
+            
 
         return  view('visualizacion_reportes_trimestrales')->with(['documentos'=>$documentos,'numero'=>$numero]);
     }
@@ -150,7 +151,7 @@ class dd_documentoController extends Controller
                     on programa.idPrograma=rep.idPrograma
                     ORDER BY programa.idPrograma ASC "));
                   
-                    
+                   
 
                    
 
